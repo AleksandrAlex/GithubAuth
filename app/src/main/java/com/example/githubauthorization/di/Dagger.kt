@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -45,7 +46,7 @@ class NetworkModule {
                 // как сделать эти поля динамическими?(я сделал статичесми)
                 // Я знаю что можно и через @Header в ретрофите задать (могу передать одно значение)
                 // , но как там передать "username:password" ???
-            .addInterceptor(BasicAuthInterceptor("username", "password"))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
     }
 
@@ -55,7 +56,7 @@ class NetworkModule {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(GitHubApi.BASE_URL)
-//                .client(client)
+                .client(client)
                 .build()
     }
 
