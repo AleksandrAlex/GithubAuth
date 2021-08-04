@@ -27,7 +27,7 @@ class UserProfileViewModel(private val repository: UserRepository): ViewModel() 
         return if (userProfile.isSuccessful) {
             UserProfileViewModelState.Success(userProfile.body())
         } else {
-            UserProfileViewModelState.Error("Error!")
+            UserProfileViewModelState.Error("Sorry! User was not identified!")
         }
     }
 }

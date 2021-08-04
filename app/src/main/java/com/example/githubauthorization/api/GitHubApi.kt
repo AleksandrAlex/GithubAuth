@@ -17,7 +17,7 @@ interface GitHubApi {
     }
 
     @GET( USER_ENDPOINT)
-    @Headers("Authorization: token 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")
+//    @Headers("Authorization: token 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")
     suspend fun getUserProfile(@Path("user") userName: String): Response<UserProfile>
 //    suspend fun getRepo(): UserProfile
 

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -63,7 +64,11 @@ class ProfileFragment : Fragment() {
         userName?.let { userViewModel.getUserProfile(it) }
         userViewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when(state){
-                is UserProfileViewModelState.Error -> showError(state.errorMessage)
+                is UserProfileViewModelState.Error -> {
+                    findNavController().navigate(R.id.authFragment)
+                    showError(state.errorMessage)
+
+                }
                 is UserProfileViewModelState.Loading -> showProgressBar()
                 is UserProfileViewModelState.Success -> {
                     hideLoader()
@@ -78,6 +83,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showError(errorMessage: String) {
+        hideLoader()
         Toast.makeText(this.context, errorMessage, Toast.LENGTH_LONG).show()
     }
 
