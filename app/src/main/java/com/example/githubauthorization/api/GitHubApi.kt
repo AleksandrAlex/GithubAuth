@@ -7,19 +7,18 @@ import retrofit2.http.*
 
 interface GitHubApi {
 
-//    apiToken = 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
+//    apiToken = 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
 
     companion object{
         const val BASE_URL = "https://api.github.com/"
         const val USER_ENDPOINT = "users/{user}"
 //        const val USER_ENDPOINT = "user"
-//        apiToken = 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
 
     }
 
     @GET( USER_ENDPOINT)
-    @Headers("Authorization: token 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")
-    suspend fun getRepo(@Path("user") userName: String): UserProfile
+    @Headers("Authorization: token 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")
+    suspend fun getUserProfile(@Path("user") userName: String): Response<UserProfile>
 //    suspend fun getRepo(): UserProfile
 
 }

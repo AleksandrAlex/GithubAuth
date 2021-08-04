@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -71,4 +72,7 @@ dependencies {
 
     // loggin interceptor
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    //coil
+    implementation "io.coil-kt:coil:1.1.1"
 }

@@ -1,4 +1,4 @@
-package com.example.githubauthorization.ui
+package com.example.githubauthorization.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
