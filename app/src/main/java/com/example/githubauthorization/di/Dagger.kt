@@ -3,7 +3,9 @@ package com.example.githubauthorization.di
 import android.content.Context
 import com.example.githubauthorization.presentation.AuthFragment
 import com.example.githubauthorization.GitHubApi
+import com.example.githubauthorization.UserRepository
 import com.example.githubauthorization.presentation.ProfileFragment
+import com.example.githubauthorization.presentation.UserProfileViewModelFactory
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -15,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
-@Component(modules = [NetworkModule::class])
+@Component(modules = [NetworkModule::class, ViewModelModule::class])
 @Singleton
 interface AppComponent{
 
@@ -60,4 +62,14 @@ class NetworkModule {
                 .build()
     }
 
+}
+
+@Module
+class ViewModelModule{
+
+    @Singleton
+    @Provides
+    fun provideUserViewModelFactory(repository: UserRepository): UserProfileViewModelFactory {
+        return UserProfileViewModelFactory(repository)
+    }
 }
