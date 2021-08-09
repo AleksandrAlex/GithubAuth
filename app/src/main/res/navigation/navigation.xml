@@ -27,4 +27,9 @@
             android:id="@+id/action_profileFragment_to_authFragment"
             app:destination="@id/authFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/searchRepositoryFragment"
+        android:name="com.example.githubauthorization.presentation.SearchRepositoryFragment"
+        android:label="SearchRepositoryFragment"
+        tools:layout="@layout/fragment_repositories_search"/>
 </navigation>
