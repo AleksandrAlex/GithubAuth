@@ -1,4 +1,4 @@
-package com.example.githubauthorization.model
+package com.example.githubauthorization.models
 
 data class UserProfile(
     val avatar_url: String,

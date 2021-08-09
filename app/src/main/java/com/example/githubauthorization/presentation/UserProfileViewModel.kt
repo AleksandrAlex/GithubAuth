@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.githubauthorization.UserRepository
-import com.example.githubauthorization.model.UserProfile
+import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.models.UserProfile
 import kotlinx.coroutines.launch
 import retrofit2.Response
 

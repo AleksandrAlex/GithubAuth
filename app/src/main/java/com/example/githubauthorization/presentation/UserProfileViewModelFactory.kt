@@ -2,7 +2,7 @@ package com.example.githubauthorization.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.githubauthorization.UserRepository
+import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.domain.UserProfileViewModel
 import javax.inject.Inject
 

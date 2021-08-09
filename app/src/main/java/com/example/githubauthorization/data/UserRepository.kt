@@ -1,5 +1,6 @@
-package com.example.githubauthorization
+package com.example.githubauthorization.data
 
+import com.example.githubauthorization.GitHubApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -1,9 +1,9 @@
 package com.example.githubauthorization.di
 
 import android.content.Context
-import com.example.githubauthorization.presentation.AuthFragment
 import com.example.githubauthorization.GitHubApi
-import com.example.githubauthorization.UserRepository
+import com.example.githubauthorization.api.TokenInterceptor
+import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.presentation.ProfileFragment
 import com.example.githubauthorization.presentation.UserProfileViewModelFactory
 import dagger.BindsInstance
@@ -44,11 +44,8 @@ class NetworkModule {
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient
             .Builder()
-                // как сделать эти поля динамическими?(я сделал статичесми)
-                // Я знаю что можно и через @Header в ретрофите задать (могу передать одно значение)
-                // , но как там передать "username:password" ???
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-//            .addInterceptor(TokenInterceptor())
+            .addInterceptor(TokenInterceptor())
             .build()
     }
 

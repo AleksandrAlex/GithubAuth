@@ -1,25 +1,13 @@
 package com.example.githubauthorization.presentation
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.githubauthorization.GitHubApi
-import com.example.githubauthorization.R
-import com.example.githubauthorization.UserRepository
 import com.example.githubauthorization.databinding.FragmentAuthBinding
-import com.example.githubauthorization.domain.UserProfileViewModel
-import com.example.githubauthorization.domain.UserProfileViewModelState
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 class AuthFragment : Fragment() {
