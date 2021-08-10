@@ -5,6 +5,8 @@ import com.example.githubauthorization.GitHubApi
 import com.example.githubauthorization.api.TokenInterceptor
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.presentation.ProfileFragment
+import com.example.githubauthorization.presentation.SearchRepositoryFragment
+import com.example.githubauthorization.presentation.SearchRepositoryViewModelFactory
 import com.example.githubauthorization.presentation.UserProfileViewModelFactory
 import dagger.BindsInstance
 import dagger.Component
@@ -22,6 +24,8 @@ import javax.inject.Singleton
 interface AppComponent{
 
     fun inject(fragment: ProfileFragment)
+
+    fun inject(fragment: SearchRepositoryFragment)
 
     @Component.Factory
     interface Factory{
@@ -69,4 +73,12 @@ class ViewModelModule{
     fun provideUserViewModelFactory(repository: UserRepository): UserProfileViewModelFactory {
         return UserProfileViewModelFactory(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideSearchRepositoryViewModelFactory(repository: UserRepository): SearchRepositoryViewModelFactory{
+        return SearchRepositoryViewModelFactory(repository)
+    }
 }
+
+

@@ -11,4 +11,8 @@ class UserRepository @Inject constructor(private val api: GitHubApi){
          api.getUserProfile(userName)
     }
 
+    suspend fun getRepositories(search: String) = withContext(Dispatchers.IO){
+        api.getListUserRepository(search)
+    }
+
 }
