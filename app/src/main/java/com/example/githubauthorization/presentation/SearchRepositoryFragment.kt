@@ -10,8 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
+import com.example.githubauthorization.models.ResponseRepositories
 import javax.inject.Inject
 
 class SearchRepositoryFragment: Fragment() {
@@ -54,12 +58,22 @@ class SearchRepositoryFragment: Fragment() {
                         is SearchRepositoryViewModelState.Loading -> showProgress()
                         is SearchRepositoryViewModelState.Success ->{
                             hideProgress()
+                            state.result?.let { it -> setupAdapter(it) }
                             Log.d("REPOSITORY", state.result.toString())
                         }
                     }
                 })
             }
         }
+    }
+
+    private fun setupAdapter(result: ResponseRepositories) {
+        val items = result.items
+        val itemList: RecyclerView = binding.recyclerListRepository
+        val currencyAdapter = AdapterRepository()
+        itemList.layoutManager = LinearLayoutManager(context)
+        itemList.adapter = currencyAdapter
+        currencyAdapter.submitList(items)
     }
 
     private fun hideProgress() {

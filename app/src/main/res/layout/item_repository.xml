@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/black"
+        android:layout_margin="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_account"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/userName"
+            tools:text="user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:lines="1"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_red_dark"
+            android:ellipsize="end"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/repoName"
+            tools:text="repoName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/userName"
+            app:layout_constraintStart_toStartOf="@id/userName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:lines="1"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/description"
+            tools:text="description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/repoName"
+            app:layout_constraintStart_toStartOf="@id/userName"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:lines="2"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:ellipsize="end" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
