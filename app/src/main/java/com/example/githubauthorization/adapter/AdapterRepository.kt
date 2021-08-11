@@ -11,7 +11,7 @@ import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.ItemRepositoryBinding
 import com.example.githubauthorization.models.Item
 
-class AdapterRepository: ListAdapter<Item, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
+class AdapterRepository(private val itemClick: (Item) -> Unit): ListAdapter<Item, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
 
     class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
@@ -32,6 +32,9 @@ class AdapterRepository: ListAdapter<Item, AdapterRepository.ItemViewHolder>(Ite
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            itemClick(getItem(position))
+        }
     }
 }
 

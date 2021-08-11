@@ -10,11 +10,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubauthorization.R
 import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
+import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ResponseRepositories
 import javax.inject.Inject
 
@@ -70,10 +73,18 @@ class SearchRepositoryFragment: Fragment() {
     private fun setupAdapter(result: ResponseRepositories) {
         val items = result.items
         val itemList: RecyclerView = binding.recyclerListRepository
-        val currencyAdapter = AdapterRepository()
+        val currencyAdapter = AdapterRepository{item -> onClick(item) }
         itemList.layoutManager = LinearLayoutManager(context)
         itemList.adapter = currencyAdapter
         currencyAdapter.submitList(items)
+    }
+
+    private fun onClick(item: Item) {
+        findNavController()
+            .navigate(
+                SearchRepositoryFragmentDirections
+                    .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
+            )
     }
 
     private fun hideProgress() {

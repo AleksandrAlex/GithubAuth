@@ -31,5 +31,21 @@
         android:id="@+id/searchRepositoryFragment"
         android:name="com.example.githubauthorization.presentation.SearchRepositoryFragment"
         android:label="SearchRepositoryFragment"
-        tools:layout="@layout/fragment_repositories_search"/>
+        tools:layout="@layout/fragment_repositories_search">
+        <action
+            android:id="@+id/action_searchRepositoryFragment_to_detailRepositoryFragment"
+            app:destination="@id/detailRepository" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailRepository"
+        android:name="com.example.githubauthorization.DetailRepositoryFragment"
+        android:label="fragment_detail_repository"
+        tools:layout="@layout/fragment_detail_repository" >
+        <action
+            android:id="@+id/action_detailRepository_to_searchRepositoryFragment"
+            app:destination="@id/searchRepositoryFragment" />
+        <argument
+            android:name="item"
+            app:argType="com.example.githubauthorization.models.Item" />
+    </fragment>
 </navigation>

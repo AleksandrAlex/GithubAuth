@@ -7,4 +7,7 @@
     <string name="name_search">Search profile by name </string>
     <string name="repository_search">Search by repository name</string>
     <string name="search">search</string>
+    <string name="txt_title_repository">Title repository:</string>
+    <string name="txt_owner">Owner:</string>
+    <string name="description">Description:</string>
 </resources>

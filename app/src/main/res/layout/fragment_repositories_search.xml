@@ -39,7 +39,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/search_btn"
+            tools:listitem="@layout/item_repository"/>
 
         <ProgressBar
             android:id="@+id/loader"

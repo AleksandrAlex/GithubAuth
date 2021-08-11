@@ -1,5 +1,9 @@
 package com.example.githubauthorization.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Item(
     val archive_url: String,
     val archived: Boolean,
@@ -43,12 +47,12 @@ data class Item(
     val issues_url: String,
     val keys_url: String,
     val labels_url: String,
-    val language: Any,
+    val language: String,
     val languages_url: String,
-    val license: Any,
+//    val license: String,
     val merges_url: String,
     val milestones_url: String,
-    val mirror_url: Any,
+    val mirror_url: String,
     val name: String,
     val node_id: String,
     val notifications_url: String,
@@ -75,4 +79,4 @@ data class Item(
     val url: String,
     val watchers: Int,
     val watchers_count: Int
-)
+):Parcelable
