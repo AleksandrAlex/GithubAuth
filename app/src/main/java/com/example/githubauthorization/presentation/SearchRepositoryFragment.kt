@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubauthorization.R
 import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
@@ -24,6 +23,8 @@ import javax.inject.Inject
 class SearchRepositoryFragment: Fragment() {
 
     lateinit var binding: FragmentRepositoriesSearchBinding
+
+    private val currencyAdapter = AdapterRepository{ item -> onClick(item) }
 
     @Inject
     lateinit var repository: UserRepository
@@ -45,37 +46,43 @@ class SearchRepositoryFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRepositoriesSearchBinding.inflate(layoutInflater)
+        setupAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        observeState()
         binding.searchBtn.setOnClickListener {
             val repoName = binding.nameRepository.text.toString()
             if (repoName.isNotEmpty()){
                 searchRepositoryViewModel.getRepositories(repoName)
-                searchRepositoryViewModel.state.observe(viewLifecycleOwner, Observer { state ->
-                    when (state) {
-                        is SearchRepositoryViewModelState.Error -> showError(state.errorMessage)
-                        is SearchRepositoryViewModelState.Loading -> showProgress()
-                        is SearchRepositoryViewModelState.Success ->{
-                            hideProgress()
-                            state.result?.let { it -> setupAdapter(it) }
-                            Log.d("REPOSITORY", state.result.toString())
-                        }
-                    }
-                })
             }
         }
     }
 
-    private fun setupAdapter(result: ResponseRepositories) {
-        val items = result.items
+    private fun observeState() {
+        searchRepositoryViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is SearchRepositoryViewModelState.Error -> showError(state.errorMessage)
+                is SearchRepositoryViewModelState.Loading -> showProgress()
+                is SearchRepositoryViewModelState.Success ->{
+                    hideProgress()
+                    state.result?.let { it -> updateAdapter(it) }
+                    Log.d("REPOSITORY", state.result.toString())
+                }
+            }
+        })
+    }
+
+    private fun setupAdapter() {
         val itemList: RecyclerView = binding.recyclerListRepository
-        val currencyAdapter = AdapterRepository{item -> onClick(item) }
         itemList.layoutManager = LinearLayoutManager(context)
         itemList.adapter = currencyAdapter
+    }
+
+    private fun updateAdapter(result: ResponseRepositories) {
+        val items = result.items
         currencyAdapter.submitList(items)
     }
 

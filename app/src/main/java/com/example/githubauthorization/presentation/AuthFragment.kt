@@ -26,9 +26,6 @@ class AuthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
         binding.confirmBtn.setOnClickListener {
             val userName = binding.name.text.toString()
             if (userName.isEmpty()){
@@ -37,9 +34,6 @@ class AuthFragment : Fragment() {
             else{
                 findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToProfileFragment(userName))
             }
-
-
         }
     }
-
 }

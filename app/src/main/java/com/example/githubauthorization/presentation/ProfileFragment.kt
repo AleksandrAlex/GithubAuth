@@ -57,14 +57,16 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val userName = args?.userName
-
         userName?.let { userViewModel.getUserProfile(it) }
+        observeState()
+    }
+
+    private fun observeState() {
         userViewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when(state){
                 is UserProfileViewModelState.Error -> {
                     findNavController().navigate(R.id.authFragment)
                     showError(state.errorMessage)
-
                 }
                 is UserProfileViewModelState.Loading -> showProgressBar()
                 is UserProfileViewModelState.Success -> {
@@ -96,5 +98,4 @@ class ProfileFragment : Fragment() {
             transformations(CircleCropTransformation())
         }
     }
-
 }

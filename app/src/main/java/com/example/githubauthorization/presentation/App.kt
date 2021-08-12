@@ -13,8 +13,6 @@ class App: Application() {
         super.onCreate()
 
         appComponent = DaggerAppComponent.factory().create(this)
-//        appComponent.inject(this)
-
     }
 
 }
