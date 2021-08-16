@@ -17,5 +17,9 @@ interface GitHubApi {
     suspend fun getUserProfile(@Path("user") userName: String): Response<UserProfile>
 
     @GET(SEARCH_REPOSITORY)
-    suspend fun getListUserRepository(@Query("q") search: String): Response<ResponseRepositories>
+    suspend fun getListUserRepository(
+        @Query("q") search: String,
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 20
+    ): Response<ResponseRepositories>
 }

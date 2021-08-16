@@ -2,6 +2,7 @@ package com.example.githubauthorization.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.ItemRepositoryBinding
 import com.example.githubauthorization.models.Item
 
-class AdapterRepository(private val itemClick: (Item) -> Unit): ListAdapter<Item, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
+class AdapterRepository(private val itemClick: (Item) -> Unit): PagingDataAdapter<Item, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
 
     class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Item) {
@@ -31,9 +32,9 @@ class AdapterRepository(private val itemClick: (Item) -> Unit): ListAdapter<Item
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { holder.bind(it) }
         holder.itemView.setOnClickListener {
-            itemClick(getItem(position))
+            getItem(position)?.let { it1 -> itemClick(it1) }
         }
     }
 }

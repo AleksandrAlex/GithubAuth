@@ -1,39 +1,48 @@
 package com.example.githubauthorization.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import androidx.paging.map
 import com.example.githubauthorization.data.UserRepository
-import com.example.githubauthorization.models.ResponseRepositories
+import com.example.githubauthorization.models.Item
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import java.lang.Exception
+import javax.inject.Inject
 
-class SearchRepositoryViewModel(private val repository: UserRepository): ViewModel() {
+class SearchRepositoryViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
 
-    private val _state = MutableLiveData<SearchRepositoryViewModelState>()
-    val state: LiveData<SearchRepositoryViewModelState>
-        get() = _state
+    private val _state = MutableStateFlow<UiState>(UiState.Empty)
+    val state: StateFlow<UiState> = _state
 
 
-    fun getRepositories(search: String) = viewModelScope.launch {
-        _state.postValue(SearchRepositoryViewModelState.Loading)
-        val result = repository.getRepositories(search)
-        val newState = checkResult(result)
-        _state.postValue(newState)
-    }
-
-    private fun checkResult(result: Response<ResponseRepositories>): SearchRepositoryViewModelState {
-        return if (result.isSuccessful){
-            SearchRepositoryViewModelState.Success(result.body())
-        } else{
-            SearchRepositoryViewModelState.Error("Can't find the repository!")
+    fun getRepositories(search: String) {
+        viewModelScope.launch (Dispatchers.IO){
+            _state.value = UiState.Loading
+            repository.getRepositories(search).collect {
+                    data ->
+                runCatching {
+                    _state.value = UiState.Success(data)
+                }.getOrElse {
+                    _state.value = UiState.Error(it.message.toString())
+                }
+            }
         }
     }
 }
 
-sealed class SearchRepositoryViewModelState{
-    class Success(val result: ResponseRepositories?): SearchRepositoryViewModelState()
-    object Loading : SearchRepositoryViewModelState()
-    class Error(val errorMessage: String): SearchRepositoryViewModelState()
+sealed class UiState{
+    class Success(val data: PagingData<Item>): UiState()
+    object Loading : UiState()
+    class Error(val errorMessage: String): UiState()
+    object Empty : UiState()
 }
