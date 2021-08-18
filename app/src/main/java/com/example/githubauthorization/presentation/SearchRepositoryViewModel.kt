@@ -1,9 +1,7 @@
 package com.example.githubauthorization.presentation
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
@@ -21,28 +19,16 @@ import javax.inject.Inject
 
 class SearchRepositoryViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
 
-    private val _state = MutableStateFlow<UiState>(UiState.Empty)
-    val state: StateFlow<UiState> = _state
+    private val currentQuery = MutableLiveData("")
 
-
-    fun getRepositories(search: String) {
-        viewModelScope.launch (Dispatchers.IO){
-            _state.value = UiState.Loading
-            repository.getRepositories(search).collect {
-                    data ->
-                runCatching {
-                    _state.value = UiState.Success(data)
-                }.getOrElse {
-                    _state.value = UiState.Error(it.message.toString())
-                }
-            }
-        }
+    val repositories = currentQuery.switchMap {
+        repository.getRepositories(it).cachedIn(viewModelScope)
     }
+
+
+    fun getRepositories(search: String){
+        currentQuery.value = search
+    }
+
 }
 
-sealed class UiState{
-    class Success(val data: PagingData<Item>): UiState()
-    object Loading : UiState()
-    class Error(val errorMessage: String): UiState()
-    object Empty : UiState()
-}

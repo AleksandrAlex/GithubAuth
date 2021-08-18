@@ -24,6 +24,6 @@ class UserRepository @Inject constructor(private val api: GitHubApi){
                 maxSize = 100
             ),
             pagingSourceFactory = {ItemsRepositoryPagingSource(api, search)}
-        ).flow
+        ).liveData
 
 }
