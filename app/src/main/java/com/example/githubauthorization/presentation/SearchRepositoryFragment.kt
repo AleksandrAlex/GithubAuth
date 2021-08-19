@@ -75,6 +75,23 @@ class SearchRepositoryFragment: Fragment() {
                 adapterRepository.submitData(it)
             }
         })
+
+        adapterRepository.addLoadStateListener { loadState ->
+            if (loadState.refresh is LoadState.Loading){
+                showProgress()
+            }
+            else{
+                hideProgress()
+                val error = when {
+                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                    else -> null
+                }
+                error?.let {
+                    showError(it.error.message.toString())
+                }
+            }
+        }
     }
 
     private fun setupAdapter() {
