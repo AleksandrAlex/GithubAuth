@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class SearchRepositoryViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
 
-    private val currentQuery = MutableLiveData("")
+    private val currentQuery = MutableLiveData<String>()
 
     val repositories = currentQuery.switchMap {
         repository.getRepositories(it).cachedIn(viewModelScope)

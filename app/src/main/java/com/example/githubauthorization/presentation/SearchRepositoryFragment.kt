@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -17,11 +18,13 @@ import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubauthorization.adapter.AdapterRepository
+import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ResponseRepositories
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.load_state_view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -91,13 +94,31 @@ class SearchRepositoryFragment: Fragment() {
                     showError(it.error.message.toString())
                 }
             }
+
+
+
+//            binding.apply {
+//                loader.isVisible = loadState.refresh is LoadState.Loading
+//                recyclerListRepository.isVisible = loadState.refresh is LoadState.NotLoading
+//
+//                if (loadState.refresh is LoadState.NotLoading &&
+//                        loadState.append.endOfPaginationReached &&
+//                        adapterRepository.itemCount < 1){
+//                    recyclerListRepository.isVisible = false
+//                }
+//
+//            }
         }
     }
 
     private fun setupAdapter() {
         val itemList: RecyclerView = binding.recyclerListRepository
         itemList.layoutManager = LinearLayoutManager(context)
-        itemList.adapter = adapterRepository
+        itemList.adapter = adapterRepository.withLoadStateHeaderAndFooter(
+            footer = RepositoryLoadStateAdapter{adapterRepository.retry()},
+            header = RepositoryLoadStateAdapter{adapterRepository.retry()}
+
+        )
     }
 
     private fun onClick(item: Item) {
