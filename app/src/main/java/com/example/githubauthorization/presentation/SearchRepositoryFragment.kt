@@ -6,36 +6,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubauthorization.NetworkUtil
 import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.models.Item
-import com.example.githubauthorization.models.ResponseRepositories
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.load_state_view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
+
 
 class SearchRepositoryFragment: Fragment() {
 
     lateinit var binding: FragmentRepositoriesSearchBinding
 
     private val adapterRepository = AdapterRepository{ item -> onClick(item) }
+
+    @Inject
+    lateinit var networkUtil: NetworkUtil
 
     @Inject
     lateinit var repository: UserRepository
@@ -52,9 +48,9 @@ class SearchRepositoryFragment: Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         binding = FragmentRepositoriesSearchBinding.inflate(layoutInflater)
         setupAdapter()
@@ -65,9 +61,14 @@ class SearchRepositoryFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeState()
         binding.searchBtn.setOnClickListener {
-            val repoName = binding.nameRepository.text.toString()
-            if (repoName.isNotEmpty()){
-                searchRepositoryViewModel.getRepositories(repoName)
+            if (networkUtil.isNetworkConnectedOrConnecting(this.requireContext())){
+                val repoName = binding.nameRepository.text.toString()
+                if (repoName.isNotEmpty()){
+                    searchRepositoryViewModel.getRepositories(repoName)
+                }
+            }
+            else{
+                Snackbar.make(view, "No Internet Connection", Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -115,8 +116,8 @@ class SearchRepositoryFragment: Fragment() {
         val itemList: RecyclerView = binding.recyclerListRepository
         itemList.layoutManager = LinearLayoutManager(context)
         itemList.adapter = adapterRepository.withLoadStateHeaderAndFooter(
-            footer = RepositoryLoadStateAdapter{adapterRepository.retry()},
-            header = RepositoryLoadStateAdapter{adapterRepository.retry()}
+                footer = RepositoryLoadStateAdapter { adapterRepository.retry() },
+                header = RepositoryLoadStateAdapter { adapterRepository.retry() }
 
         )
     }
@@ -124,8 +125,8 @@ class SearchRepositoryFragment: Fragment() {
     private fun onClick(item: Item) {
         findNavController()
             .navigate(
-                SearchRepositoryFragmentDirections
-                    .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
+                    SearchRepositoryFragmentDirections
+                            .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
             )
     }
 
