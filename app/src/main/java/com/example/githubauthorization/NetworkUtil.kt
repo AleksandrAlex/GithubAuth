@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class NetworkUtil @Inject constructor() {
 
-    fun isNetworkConnectedOrConnecting(context: Context): Boolean {
+    fun isNetworkConnected(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = cm.activeNetworkInfo
         return networkInfo != null && networkInfo.isConnectedOrConnecting

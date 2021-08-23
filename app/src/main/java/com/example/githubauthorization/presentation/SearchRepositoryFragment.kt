@@ -2,9 +2,11 @@ package com.example.githubauthorization.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -57,18 +59,24 @@ class SearchRepositoryFragment: Fragment() {
         return binding.root
     }
 
+    @Suppress("NAME_SHADOWING")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
         binding.searchBtn.setOnClickListener {
-            if (networkUtil.isNetworkConnectedOrConnecting(this.requireContext())){
+            if (networkUtil.isNetworkConnected(this.requireContext())){
                 val repoName = binding.nameRepository.text.toString()
                 if (repoName.isNotEmpty()){
                     searchRepositoryViewModel.getRepositories(repoName)
                 }
             }
             else{
-                Snackbar.make(view, "No Internet Connection", Snackbar.LENGTH_LONG).show()
+                val snack: Snackbar = Snackbar.make(view,"No Internet Connection", Snackbar.LENGTH_LONG)
+                val view = snack.view
+                val params = view.layoutParams as FrameLayout.LayoutParams
+                params.gravity = Gravity.TOP
+                view.layoutParams = params
+                snack.show()
             }
         }
     }
