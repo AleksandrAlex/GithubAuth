@@ -9,4 +9,8 @@
         android:id="@id/searchRepositoryFragment"
         android:title="@string/repository_search"/>
 
+    <item
+        android:id="@+id/favoriteRepositoryFragment"
+        android:title="@string/my_favorite_repositories"/>
+
 </menu>

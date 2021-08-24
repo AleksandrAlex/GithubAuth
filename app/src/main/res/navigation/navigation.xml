@@ -48,4 +48,9 @@
             android:name="item"
             app:argType="com.example.githubauthorization.models.Item" />
     </fragment>
+    <fragment
+        android:id="@+id/favoriteRepositoryFragment"
+        android:name="com.example.githubauthorization.presentation.FavoriteRepositoryFragment"
+        android:label="FavoriteRepositoryFragment"
+        tools:layout="@layout/fragment_favorite_repositories"/>
 </navigation>

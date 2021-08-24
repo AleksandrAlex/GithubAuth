@@ -1,9 +1,11 @@
 package com.example.githubauthorization.di
 
 import android.content.Context
+import com.example.githubauthorization.DetailRepositoryFragment
 import com.example.githubauthorization.GitHubApi
 import com.example.githubauthorization.api.TokenInterceptor
 import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.db.RepoDB
 import com.example.githubauthorization.presentation.*
 import dagger.BindsInstance
 import dagger.Component
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
-@Component(modules = [NetworkModule::class, ViewModelModule::class])
+@Component(modules = [NetworkModule::class, ViewModelModule::class, DatabaseModule::class])
 @Singleton
 interface AppComponent{
 
@@ -26,6 +28,10 @@ interface AppComponent{
     fun inject(fragment: SearchRepositoryFragment)
 
     fun inject(fragment: AuthFragment)
+
+    fun inject(fragment: DetailRepositoryFragment)
+
+    fun inject(fragment: FavoriteRepositoryFragment)
 
     @Component.Factory
     interface Factory{
@@ -81,6 +87,21 @@ class ViewModelModule{
     @Provides
     fun provideSearchRepositoryViewModelFactory(repository: UserRepository): SearchRepositoryViewModelFactory{
         return SearchRepositoryViewModelFactory(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteRepositoryViewModelFactory(repository: UserRepository): FavoriteRepositoryViewModelFactory{
+        return FavoriteRepositoryViewModelFactory(repository)
+    }
+}
+
+@Module
+class DatabaseModule{
+    @Singleton
+    @Provides
+    fun provideDatabase(context: Context): RepoDB{
+        return RepoDB.invoke(context)
     }
 }
 

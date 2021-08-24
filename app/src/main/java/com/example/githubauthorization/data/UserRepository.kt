@@ -6,12 +6,17 @@ import androidx.paging.cachedIn
 import androidx.paging.liveData
 import com.example.githubauthorization.GitHubApi
 import com.example.githubauthorization.api.ItemsRepositoryPagingSource
+import com.example.githubauthorization.db.EntityRepo
+import com.example.githubauthorization.db.RepoDB
+import com.example.githubauthorization.models.Item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val api: GitHubApi){
+class UserRepository @Inject constructor(private val api: GitHubApi, private val db: RepoDB){
+
+    private val dbDao = db.repositoryDAO
 
     suspend fun getUserProfile(userName: String) = withContext(Dispatchers.IO){
          api.getUserProfile(userName)
@@ -26,4 +31,28 @@ class UserRepository @Inject constructor(private val api: GitHubApi){
             pagingSourceFactory = {ItemsRepositoryPagingSource(api, search)}
         ).liveData
 
+    suspend fun saveRepository(item: Item){
+        dbDao.insertRepository(
+            EntityRepo(
+            id = item.id,
+            description = item.description,
+            name = item.name,
+            created_at = item.created_at,
+            full_name = item.full_name,
+            git_url = item.git_url,
+            language = item.language,
+            repos_url = item.owner.repos_url,
+            login = item.owner.login,
+            avatar_url = item.owner.avatar_url
+            )
+        )
+    }
+
+    fun getFavoriteRepositories() =
+        dbDao.getRepositoriesFromDB()
+
+
+    suspend fun removeRepositoryFromDB(item: EntityRepo){
+        dbDao.removeRepository(item)
+    }
 }
