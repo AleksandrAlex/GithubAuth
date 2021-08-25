@@ -7,12 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentDetailRepositoryBinding
 import com.example.githubauthorization.presentation.App
+import com.example.githubauthorization.presentation.DetailRepositoryFragmentViewModel
+import com.example.githubauthorization.presentation.DetailRepositoryFragmentViewModelFactory
+import kotlinx.android.synthetic.main.fragment_detail_repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,6 +27,11 @@ class DetailRepositoryFragment : Fragment() {
 
     @Inject
     lateinit var userRepository: UserRepository
+
+    @Inject
+    lateinit var factory: DetailRepositoryFragmentViewModelFactory
+
+    private val detailRepositoryFragmentViewModel by viewModels<DetailRepositoryFragmentViewModel> { factory }
 
     private val args: DetailRepositoryFragmentArgs by navArgs()
 
@@ -44,6 +54,8 @@ class DetailRepositoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeState()
+
         val item = args.item
         binding.apply {
             description.text = item.description
@@ -54,9 +66,27 @@ class DetailRepositoryFragment : Fragment() {
 
         binding.star.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                userRepository.saveRepository(item)
+                detailRepositoryFragmentViewModel.saveRepository(item)
             }
             Toast.makeText(context, "Repository was added to favorites!", Toast.LENGTH_LONG).show()
         }
+
+        binding.bin.setOnClickListener {
+            lifecycleScope.launch {
+                detailRepositoryFragmentViewModel.removeRepository(item)
+            }
+            Toast.makeText(context, "Repository was removed!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun observeState() {
+        detailRepositoryFragmentViewModel.stateStarBtn.observe(viewLifecycleOwner, Observer {
+           if (it == true){
+               binding.star.setImageResource(R.drawable.ic_gold_star)
+           }
+            else{
+               binding.star.setImageResource(R.drawable.ic_star)
+           }
+        })
     }
 }

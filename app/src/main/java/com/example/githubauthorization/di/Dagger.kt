@@ -94,6 +94,12 @@ class ViewModelModule{
     fun provideFavoriteRepositoryViewModelFactory(repository: UserRepository): FavoriteRepositoryViewModelFactory{
         return FavoriteRepositoryViewModelFactory(repository)
     }
+
+    @Singleton
+    @Provides
+    fun provideDetailRepositoryFragmentViewModelFactory(repository: UserRepository): DetailRepositoryFragmentViewModelFactory{
+        return DetailRepositoryFragmentViewModelFactory(repository)
+    }
 }
 
 @Module
