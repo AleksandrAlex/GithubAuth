@@ -13,7 +13,7 @@ data class EntityRepo (
     val created_at: String,
     val full_name: String,
     val git_url: String,
-    val language: String,
+//    val language: String,
     val repos_url: String,
     val login: String,
     val avatar_url: String,

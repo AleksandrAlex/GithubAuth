@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubauthorization.R
 import com.example.githubauthorization.adapter.AdapterFavoriteRepository
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentFavoriteRepositoriesBinding
+import com.example.githubauthorization.db.EntityRepo
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -29,7 +31,15 @@ class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositor
 
     lateinit var binding: FragmentFavoriteRepositoriesBinding
 
-    private val favoriteAdapterRepository = AdapterFavoriteRepository()
+    private val favoriteAdapterRepository = AdapterFavoriteRepository{item -> onClick(item)}
+
+    private fun onClick(item: EntityRepo) {
+        findNavController()
+            .navigate(
+                FavoriteRepositoryFragmentDirections
+                    .actionFavoriteRepositoryFragmentToFavoriteDetailsRepository(item.id)
+            )
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

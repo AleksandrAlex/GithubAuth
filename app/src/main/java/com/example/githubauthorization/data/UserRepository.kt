@@ -40,7 +40,7 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
             created_at = item.created_at,
             full_name = item.full_name,
             git_url = item.git_url,
-            language = item.language,
+//            language = item.language,
             repos_url = item.owner.repos_url,
             login = item.owner.login,
             avatar_url = item.owner.avatar_url
@@ -52,7 +52,11 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
         dbDao.getRepositoriesFromDB()
 
 
-    suspend fun removeRepositoryFromDB(item: EntityRepo){
+    suspend fun removeRepositoryFromDB(item: Int) = withContext(Dispatchers.IO){
         dbDao.removeRepository(item)
     }
+
+    fun getItemFromDatabase(itemId: Int) =
+        dbDao.getItem(itemId)
+
 }

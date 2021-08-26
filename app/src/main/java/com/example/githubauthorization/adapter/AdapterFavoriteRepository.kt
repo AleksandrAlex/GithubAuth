@@ -11,9 +11,10 @@ import coil.transform.CircleCropTransformation
 import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.ItemRepositoryBinding
 import com.example.githubauthorization.db.EntityRepo
+import com.example.githubauthorization.models.Item
 
 
-class AdapterFavoriteRepository: ListAdapter<EntityRepo, AdapterFavoriteRepository.FavoriteRepositoryViewHolder> (FavoriteDiffUtil()){
+class AdapterFavoriteRepository(private val itemClick: (EntityRepo) -> Unit): ListAdapter<EntityRepo, AdapterFavoriteRepository.FavoriteRepositoryViewHolder> (FavoriteDiffUtil()){
 
     class FavoriteRepositoryViewHolder(val binding: ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EntityRepo) {
@@ -37,6 +38,9 @@ class AdapterFavoriteRepository: ListAdapter<EntityRepo, AdapterFavoriteReposito
 
     override fun onBindViewHolder(holder: FavoriteRepositoryViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            itemClick(getItem(position))
+        }
     }
 }
 

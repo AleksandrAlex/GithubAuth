@@ -2,6 +2,7 @@ package com.example.githubauthorization.di
 
 import android.content.Context
 import com.example.githubauthorization.DetailRepositoryFragment
+import com.example.githubauthorization.FavoriteDetailsRepositoryFragment
 import com.example.githubauthorization.GitHubApi
 import com.example.githubauthorization.api.TokenInterceptor
 import com.example.githubauthorization.data.UserRepository
@@ -32,6 +33,8 @@ interface AppComponent{
     fun inject(fragment: DetailRepositoryFragment)
 
     fun inject(fragment: FavoriteRepositoryFragment)
+
+    fun inject(fragment: FavoriteDetailsRepositoryFragment)
 
     @Component.Factory
     interface Factory{
@@ -99,6 +102,12 @@ class ViewModelModule{
     @Provides
     fun provideDetailRepositoryFragmentViewModelFactory(repository: UserRepository): DetailRepositoryFragmentViewModelFactory{
         return DetailRepositoryFragmentViewModelFactory(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFavoriteDetailsRepositoryViewModelFactory(repository: UserRepository): FavoriteDetailsRepositoryViewModelFactory{
+        return FavoriteDetailsRepositoryViewModelFactory(repository)
     }
 }
 

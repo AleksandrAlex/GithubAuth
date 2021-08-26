@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class DetailRepositoryFragmentViewModel(private val repositoty: UserRepository): ViewModel(){
+class DetailRepositoryFragmentViewModel @Inject constructor(private val repositoty: UserRepository): ViewModel(){
 
     private val _stateStarBtn = MutableLiveData<Boolean>(false)
     val stateStarBtn: LiveData<Boolean> = _stateStarBtn
@@ -24,18 +24,7 @@ class DetailRepositoryFragmentViewModel(private val repositoty: UserRepository):
 
     suspend fun removeRepository(item: Item) = withContext(Dispatchers.IO) {
         repositoty.removeRepositoryFromDB(
-            EntityRepo(
-                id = item.id,
-                description = item.description,
-                name = item.name,
-                created_at = item.created_at,
-                full_name = item.full_name,
-                git_url = item.git_url,
-                language = item.language,
-                repos_url = item.owner.repos_url,
-                login = item.owner.login,
-                avatar_url = item.owner.avatar_url
-            )
+            item.id
         )
         _stateStarBtn.postValue(false)
     }
