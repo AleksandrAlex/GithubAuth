@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/favoriteRepositoryFragment"
+        android:title="@string/my_favorite_repositories"/>
+
+    <item
         android:id="@id/authFragment"
         android:title="@string/name_search" />
 
     <item
         android:id="@id/searchRepositoryFragment"
         android:title="@string/repository_search"/>
-
-    <item
-        android:id="@+id/favoriteRepositoryFragment"
-        android:title="@string/my_favorite_repositories"/>
 
 </menu>

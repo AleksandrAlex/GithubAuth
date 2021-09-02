@@ -12,25 +12,17 @@
         android:layout_height="match_parent"
         android:padding="4dp">
 
-        <EditText
+        <SearchView
             android:id="@+id/name_repository"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:hint="Enter repository name"
+            android:queryHint="@string/enter_repository_name"
+            android:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/search_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_marginTop="30dp"
-            android:text="@string/search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name_repository" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/search_background"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerListRepository"
@@ -39,7 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_btn"
+            app:layout_constraintTop_toBottomOf="@+id/name_repository"
             tools:listitem="@layout/item_repository"/>
 
         <ProgressBar

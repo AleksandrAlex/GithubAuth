@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +24,7 @@ import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.models.Item
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 
@@ -63,22 +65,45 @@ class SearchRepositoryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-        binding.searchBtn.setOnClickListener {
-            if (networkUtil.isNetworkConnected(this.requireContext())){
-                val repoName = binding.nameRepository.text.toString()
-                if (repoName.isNotEmpty()){
-                    searchRepositoryViewModel.getRepositories(repoName)
+//        binding.searchBtn.setOnClickListener {
+//            if (networkUtil.isNetworkConnected(this.requireContext())){
+//                val repoName = binding.nameRepository.query.toString()
+//                if (repoName.isNotEmpty()){
+//                    searchRepositoryViewModel.getRepositories(repoName)
+//                }
+//            }
+//            else{
+//                val snack: Snackbar = Snackbar.make(view,"No Internet Connection", Snackbar.LENGTH_LONG)
+//                val view = snack.view
+//                val params = view.layoutParams as FrameLayout.LayoutParams
+//                params.gravity = Gravity.TOP
+//                view.layoutParams = params
+//                snack.show()
+//            }
+//        }
+
+        binding.nameRepository.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                binding.nameRepository.clearFocus()
+                query?.let { searchRepositoryViewModel.getRepositories(it) }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                lifecycleScope.launchWhenStarted {
+
+                    if (newText != null) {
+                        val queryWithoutTrim =  newText.trimStart()
+                        if (queryWithoutTrim.length>2){
+                            delay(2000L)
+                            searchRepositoryViewModel.getRepositories(queryWithoutTrim)
+                        }
+                    }
                 }
+                return false
             }
-            else{
-                val snack: Snackbar = Snackbar.make(view,"No Internet Connection", Snackbar.LENGTH_LONG)
-                val view = snack.view
-                val params = view.layoutParams as FrameLayout.LayoutParams
-                params.gravity = Gravity.TOP
-                view.layoutParams = params
-                snack.show()
-            }
-        }
+        })
     }
 
     private fun observeState() {
