@@ -92,7 +92,6 @@ class SearchRepositoryFragment: Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
 
                 lifecycleScope.launchWhenStarted {
-
                     if (newText != null) {
                         val queryWithoutTrim =  newText.trimStart()
                         if (queryWithoutTrim.length>2){

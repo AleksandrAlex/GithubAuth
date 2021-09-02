@@ -9,14 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.githubauthorization.R
-import com.example.githubauthorization.databinding.ItemRepositoryBinding
+import com.example.githubauthorization.databinding.ItemFavoriteRepositoryBinding
 import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.models.Item
 
 
-class AdapterFavoriteRepository(private val itemClick: (EntityRepo) -> Unit): ListAdapter<EntityRepo, AdapterFavoriteRepository.FavoriteRepositoryViewHolder> (FavoriteDiffUtil()){
+class AdapterFavoriteRepository(
+    private val itemClick: (EntityRepo) -> Unit, private val starClick: (EntityRepo) -> Unit
+) : ListAdapter<EntityRepo, AdapterFavoriteRepository.FavoriteRepositoryViewHolder> (FavoriteDiffUtil()){
 
-    class FavoriteRepositoryViewHolder(val binding: ItemRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    class FavoriteRepositoryViewHolder(val binding: ItemFavoriteRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EntityRepo) {
             binding.repoName.text = item.name
             binding.userName.text = item.login
@@ -32,7 +34,7 @@ class AdapterFavoriteRepository(private val itemClick: (EntityRepo) -> Unit): Li
         parent: ViewGroup,
         viewType: Int
     ): FavoriteRepositoryViewHolder {
-        val view = ItemRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view = ItemFavoriteRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteRepositoryViewHolder(view)
     }
 
@@ -40,6 +42,10 @@ class AdapterFavoriteRepository(private val itemClick: (EntityRepo) -> Unit): Li
         holder.bind(getItem(position))
         holder.itemView.setOnClickListener {
             itemClick(getItem(position))
+        }
+
+        holder.binding.starFavorite.setOnClickListener {
+            starClick(getItem(position))
         }
     }
 }

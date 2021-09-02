@@ -75,7 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_star"
+            android:src="@drawable/ic_gold_star"
             android:focusable="true"
             android:clickable="true"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,7 +31,12 @@ class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositor
 
     lateinit var binding: FragmentFavoriteRepositoriesBinding
 
-    private val favoriteAdapterRepository = AdapterFavoriteRepository{item -> onClick(item)}
+    private val favoriteAdapterRepository = AdapterFavoriteRepository({item -> onClick(item)}, {star -> starClick(star)})
+
+    private fun starClick(item: EntityRepo) {
+        favoriteRepositoryViewModel.removeRepositoryFromDB(item)
+
+    }
 
     private fun onClick(item: EntityRepo) {
         findNavController()
@@ -64,6 +69,8 @@ class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositor
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
 
         lifecycleScope.launchWhenStarted {
