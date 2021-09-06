@@ -25,7 +25,7 @@ class DetailRepositoryFragmentViewModel @Inject constructor(private val reposito
 
     suspend fun removeRepository(item: ItemHolder) = withContext(Dispatchers.IO) {
         repositoty.removeRepositoryFromDB(
-            item.id
+            item.item.id
         )
         _stateStarBtn.postValue(false)
     }

@@ -29,22 +29,22 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
                 pageSize = 20,
                 maxSize = 100
             ),
-            pagingSourceFactory = {ItemsRepositoryPagingSource(api, db, search)}
+            pagingSourceFactory = {ItemsRepositoryPagingSource(db, api, search)}
         ).liveData
 
     suspend fun saveRepository(item: ItemHolder){
         dbDao.insertRepository(
             EntityRepo(
-            id = item.id,
-            description = item.description,
-            name = item.name,
-            created_at = item.created_at,
-            full_name = item.full_name,
-            git_url = item.git_url,
+            id = item.item.id,
+            description = item.item.description,
+            name = item.item.name,
+            created_at = item.item.created_at,
+            full_name = item.item.full_name,
+            git_url = item.item.git_url,
 //            language = item.language,
-            repos_url = item.owner.repos_url,
-            login = item.owner.login,
-            avatar_url = item.owner.avatar_url
+            repos_url = item.item.owner.repos_url,
+            login = item.item.owner.login,
+            avatar_url = item.item.owner.avatar_url
             )
         )
     }

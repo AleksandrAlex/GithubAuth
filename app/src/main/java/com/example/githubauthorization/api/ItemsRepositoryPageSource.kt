@@ -3,18 +3,16 @@ package com.example.githubauthorization.api
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.githubauthorization.GitHubApi
-import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.db.RepoDB
-//import com.example.githubauthorization.models.Item
+import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
-import com.example.githubauthorization.models.OwnerHolder
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
 import javax.inject.Inject
 
 class ItemsRepositoryPagingSource(
-    private val api: GitHubApi,
     private val db: RepoDB,
+    private val api: GitHubApi,
     private val query: String
 ): PagingSource<Int, ItemHolder>() {
 
@@ -37,33 +35,16 @@ class ItemsRepositoryPagingSource(
             // match response with DB
 
 
-              val itemsHolder = items.map { item ->
+            val repoFromDb = db.repositoryDAO.getRepositoriesFromDB().first()
 
-                    ItemHolder(
-                        created_at = item.created_at,
-                        description = item.description,
-                        downloads_url = item.downloads_url,
-                        full_name = item.full_name,
-                        git_url = item.git_url,
-                        id = item.id,
-                        name = item.name,
-                        owner =
-                        OwnerHolder(
-                            avatar_url = item.owner.avatar_url,
-                            html_url = item.owner.html_url,
-                            id = item.owner.id,
-                            login = item.owner.login,
-                            repos_url = item.owner.repos_url,
-                            url = item.owner.url
-                        ),
-                        pushed_at = item.pushed_at,
-                        size = item.size
-//                        isFavorite = ????
-                    )
-            }
-
-
-
+            val itemsHolder = items.flatMap { item ->
+                    repoFromDb.map {
+                        ItemHolder(
+                                item = item,
+                                isFavorite = item.id == it.id
+                        )
+                    }
+                }
 
 
 

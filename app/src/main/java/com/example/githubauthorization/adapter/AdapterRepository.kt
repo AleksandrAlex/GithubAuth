@@ -16,11 +16,12 @@ import com.example.githubauthorization.models.ItemHolder
 class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingDataAdapter<ItemHolder, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
 
     class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ItemHolder) {
-            binding.repoName.text = item.name
-            binding.userName.text = item.owner.login
-            binding.description.text = item.description
-            binding.imageView.load(item.owner.avatar_url){
+
+        fun bind(itemHolder: ItemHolder) {
+            binding.repoName.text = itemHolder.item.name
+            binding.userName.text = itemHolder.item.owner.login
+            binding.description.text = itemHolder.item.description
+            binding.imageView.load(itemHolder.item.owner.avatar_url){
                 placeholder(R.drawable.ic_account)
                 transformations(CircleCropTransformation())
             }
@@ -42,11 +43,14 @@ class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingData
 
 class ItemDiffUtil: DiffUtil.ItemCallback<ItemHolder>() {
     override fun areItemsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
-        return oldItem.id == newItem.id
+
+        return oldItem.item.id == newItem.item.id
     }
 
+
+
     override fun areContentsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
-        return oldItem == newItem
+        return oldItem.item == newItem.item
     }
 
 }

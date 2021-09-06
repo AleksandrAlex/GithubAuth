@@ -58,10 +58,10 @@ class DetailRepositoryFragment : Fragment() {
 
         val item = args.itemHolder
         binding.apply {
-            description.text = item.description
-            title.text = item.name
-            owner.text = item.owner.login
-            image.load(item.owner.avatar_url)
+            description.text = item.item.description
+            title.text = item.item.name
+            owner.text = item.item.owner.login
+            image.load(item.item.owner.avatar_url)
         }
 
         binding.star.setOnClickListener {
