@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.models.Item
+import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -17,12 +18,12 @@ class DetailRepositoryFragmentViewModel @Inject constructor(private val reposito
     val stateStarBtn: LiveData<Boolean> = _stateStarBtn
 
 
-    suspend fun saveRepository(item: Item) = withContext(Dispatchers.IO){
+    suspend fun saveRepository(item: ItemHolder) = withContext(Dispatchers.IO){
         repositoty.saveRepository(item)
         _stateStarBtn.postValue(true)
     }
 
-    suspend fun removeRepository(item: Item) = withContext(Dispatchers.IO) {
+    suspend fun removeRepository(item: ItemHolder) = withContext(Dispatchers.IO) {
         repositoty.removeRepositoryFromDB(
             item.id
         )

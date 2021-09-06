@@ -23,6 +23,7 @@ import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.models.Item
+import com.example.githubauthorization.models.ItemHolder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -154,7 +155,7 @@ class SearchRepositoryFragment: Fragment() {
         )
     }
 
-    private fun onClick(item: Item) {
+    private fun onClick(item: ItemHolder) {
         findNavController()
             .navigate(
                     SearchRepositoryFragmentDirections

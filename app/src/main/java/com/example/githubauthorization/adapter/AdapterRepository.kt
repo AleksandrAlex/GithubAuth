@@ -11,11 +11,12 @@ import coil.transform.CircleCropTransformation
 import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.ItemRepositoryBinding
 import com.example.githubauthorization.models.Item
+import com.example.githubauthorization.models.ItemHolder
 
-class AdapterRepository(private val itemClick: (Item) -> Unit): PagingDataAdapter<Item, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
+class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingDataAdapter<ItemHolder, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
 
     class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Item) {
+        fun bind(item: ItemHolder) {
             binding.repoName.text = item.name
             binding.userName.text = item.owner.login
             binding.description.text = item.description
@@ -39,12 +40,12 @@ class AdapterRepository(private val itemClick: (Item) -> Unit): PagingDataAdapte
     }
 }
 
-class ItemDiffUtil: DiffUtil.ItemCallback<Item>() {
-    override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
+class ItemDiffUtil: DiffUtil.ItemCallback<ItemHolder>() {
+    override fun areItemsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Item, newItem: Item): Boolean {
+    override fun areContentsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
         return oldItem == newItem
     }
 

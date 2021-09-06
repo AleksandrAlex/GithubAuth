@@ -45,8 +45,8 @@
             android:id="@+id/action_detailRepository_to_searchRepositoryFragment"
             app:destination="@id/searchRepositoryFragment" />
         <argument
-            android:name="item"
-            app:argType="com.example.githubauthorization.models.Item" />
+            android:name="itemHolder"
+            app:argType="com.example.githubauthorization.models.ItemHolder" />
     </fragment>
     <fragment
         android:id="@+id/favoriteRepositoryFragment"

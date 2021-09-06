@@ -56,7 +56,7 @@ class DetailRepositoryFragment : Fragment() {
 
         observeState()
 
-        val item = args.item
+        val item = args.itemHolder
         binding.apply {
             description.text = item.description
             title.text = item.name

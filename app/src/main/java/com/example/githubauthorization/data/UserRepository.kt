@@ -9,6 +9,7 @@ import com.example.githubauthorization.api.ItemsRepositoryPagingSource
 import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.db.RepoDB
 import com.example.githubauthorization.models.Item
+import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
@@ -28,10 +29,10 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
                 pageSize = 20,
                 maxSize = 100
             ),
-            pagingSourceFactory = {ItemsRepositoryPagingSource(api, search)}
+            pagingSourceFactory = {ItemsRepositoryPagingSource(api, db, search)}
         ).liveData
 
-    suspend fun saveRepository(item: Item){
+    suspend fun saveRepository(item: ItemHolder){
         dbDao.insertRepository(
             EntityRepo(
             id = item.id,
