@@ -107,8 +107,8 @@ class SearchRepositoryFragment: Fragment() {
     }
 
     private fun observeState() {
-        searchRepositoryViewModel.repositories.observe(viewLifecycleOwner, Observer {
-            lifecycleScope.launchWhenResumed {
+        searchRepositoryViewModel.repositories.observe(viewLifecycleOwner, {
+            lifecycleScope.launchWhenStarted {
                 adapterRepository.submitData(it)
             }
         })

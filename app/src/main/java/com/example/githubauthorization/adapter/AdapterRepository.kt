@@ -25,6 +25,12 @@ class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingData
                 placeholder(R.drawable.ic_account)
                 transformations(CircleCropTransformation())
             }
+            if (itemHolder.isFavorite){
+                binding.starFavorite.setImageResource(R.drawable.ic_gold_star)
+            }
+            else{
+                binding.starFavorite.setImageResource(R.drawable.ic_star)
+            }
         }
     }
 
@@ -43,7 +49,6 @@ class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingData
 
 class ItemDiffUtil: DiffUtil.ItemCallback<ItemHolder>() {
     override fun areItemsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
-
         return oldItem.item.id == newItem.item.id
     }
 

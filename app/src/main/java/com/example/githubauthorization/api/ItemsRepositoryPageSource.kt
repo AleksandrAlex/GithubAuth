@@ -1,14 +1,15 @@
 package com.example.githubauthorization.api
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.githubauthorization.GitHubApi
+import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.db.RepoDB
 import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
-import javax.inject.Inject
 
 class ItemsRepositoryPagingSource(
     private val db: RepoDB,
@@ -28,27 +29,28 @@ class ItemsRepositoryPagingSource(
         val pageSize = params.loadSize
 
         val response = api.getListUserRepository(query, pageNumber, pageSize)
-        val repositoriesFromDb = db.repositoryDAO.getRepositoriesFromDB()
         if (response.isSuccessful){
             val items = checkNotNull(response.body()?.items)
 
             // match response with DB
 
-
             val repoFromDb = db.repositoryDAO.getRepositoriesFromDB().first()
 
-            val itemsHolder = items.flatMap { item ->
-                    repoFromDb.map {
-                        ItemHolder(
-                                item = item,
-                                isFavorite = item.id == it.id
-                        )
-                    }
+            var itemsHolder = items.map { item ->
+                    ItemHolder(
+                            item = item,
+                            isFavorite = false
+                    )
                 }
 
-
-
-            val nextKey = if (itemsHolder.size < pageSize) null else pageNumber + 1
+            for (res in repoFromDb){
+                itemsHolder.map {
+                    if (res.id == it.item.id){
+                        it.isFavorite = true
+                    }
+                }
+            }
+            val nextKey = if (items.size < pageSize) null else pageNumber + 1
             val prevKey = if (pageSize == 1) null else pageNumber - 1
             return LoadResult.Page(itemsHolder, prevKey, nextKey)
         } else {

@@ -8,7 +8,7 @@ import com.example.githubauthorization.models.Owner
 data class EntityRepo (
     @PrimaryKey
     val id: Int,
-    val description: String,
+    val description: String?,
     val name: String,
     val created_at: String,
     val full_name: String,
