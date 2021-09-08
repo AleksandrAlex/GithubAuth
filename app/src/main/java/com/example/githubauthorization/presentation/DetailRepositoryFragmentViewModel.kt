@@ -14,20 +14,17 @@ import javax.inject.Inject
 
 class DetailRepositoryFragmentViewModel @Inject constructor(private val repositoty: UserRepository): ViewModel(){
 
-    private val _stateStarBtn = MutableLiveData<Boolean>(false)
-    val stateStarBtn: LiveData<Boolean> = _stateStarBtn
+
 
 
     suspend fun saveRepository(item: ItemHolder) = withContext(Dispatchers.IO){
         repositoty.saveRepository(item)
-        _stateStarBtn.postValue(true)
     }
 
     suspend fun removeRepository(item: ItemHolder) = withContext(Dispatchers.IO) {
         repositoty.removeRepositoryFromDB(
             item.item.id
         )
-        _stateStarBtn.postValue(false)
     }
 }
 

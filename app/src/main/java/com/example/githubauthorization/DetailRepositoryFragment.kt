@@ -54,20 +54,23 @@ class DetailRepositoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeState()
-
         val item = args.itemHolder
         binding.apply {
             description.text = item.item.description
             title.text = item.item.name
             owner.text = item.item.owner.login
             image.load(item.item.owner.avatar_url)
+            if(item.isFavorite)
+            star.setImageResource(R.drawable.ic_gold_star)
+            else
+                star.setImageResource(R.drawable.ic_star)
         }
 
         binding.star.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 detailRepositoryFragmentViewModel.saveRepository(item)
             }
+            star.setImageResource(R.drawable.ic_gold_star)
             Toast.makeText(context, "Repository was added to favorites!", Toast.LENGTH_LONG).show()
         }
 
@@ -75,18 +78,8 @@ class DetailRepositoryFragment : Fragment() {
             lifecycleScope.launch {
                 detailRepositoryFragmentViewModel.removeRepository(item)
             }
+            star.setImageResource(R.drawable.ic_star)
             Toast.makeText(context, "Repository was removed!", Toast.LENGTH_LONG).show()
         }
-    }
-
-    private fun observeState() {
-        detailRepositoryFragmentViewModel.stateStarBtn.observe(viewLifecycleOwner, Observer {
-           if (it == true){
-               binding.star.setImageResource(R.drawable.ic_gold_star)
-           }
-            else{
-               binding.star.setImageResource(R.drawable.ic_star)
-           }
-        })
     }
 }
