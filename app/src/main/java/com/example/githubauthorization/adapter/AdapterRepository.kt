@@ -13,7 +13,9 @@ import com.example.githubauthorization.databinding.ItemRepositoryBinding
 import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
 
-class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingDataAdapter<ItemHolder, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
+class AdapterRepository(
+    private val itemClick: (ItemHolder) -> Unit, private val starClick: (ItemHolder) -> Unit
+): PagingDataAdapter<ItemHolder, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
 
     class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -44,18 +46,21 @@ class AdapterRepository(private val itemClick: (ItemHolder) -> Unit): PagingData
         holder.itemView.setOnClickListener {
             getItem(position)?.let { it1 -> itemClick(it1) }
         }
+        holder.binding.starFavorite.setOnClickListener {
+            getItem(position)?.let { it1 -> starClick(it1) }
+        }
     }
 }
 
 class ItemDiffUtil: DiffUtil.ItemCallback<ItemHolder>() {
     override fun areItemsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
-        return oldItem.item.id == newItem.item.id
+        return oldItem.item.id == newItem.item.id && oldItem.isFavorite == newItem.isFavorite
     }
 
 
 
     override fun areContentsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
-        return oldItem.item == newItem.item
+        return oldItem == newItem
     }
 
 }

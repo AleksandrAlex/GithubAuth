@@ -7,6 +7,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.models.Item
+import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +29,16 @@ class SearchRepositoryViewModel @Inject constructor(private val repository: User
 
     fun getRepositories(search: String){
         currentQuery.value = search
+    }
+
+    fun saveRepository(itemHolder: ItemHolder) = viewModelScope.launch(Dispatchers.IO){
+        itemHolder.isFavorite = true
+        repository.saveRepository(itemHolder)
+    }
+
+    fun removeFromFavorites(itemHolder: ItemHolder) = viewModelScope.launch(Dispatchers.IO){
+        repository.removeRepositoryFromDB(itemHolder.item.id)
+        itemHolder.isFavorite = false
     }
 
 }

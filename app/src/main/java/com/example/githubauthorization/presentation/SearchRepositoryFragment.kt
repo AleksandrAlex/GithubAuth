@@ -26,6 +26,7 @@ import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -33,7 +34,8 @@ class SearchRepositoryFragment: Fragment() {
 
     lateinit var binding: FragmentRepositoriesSearchBinding
 
-    private val adapterRepository = AdapterRepository{ item -> onClick(item) }
+    private val adapterRepository = AdapterRepository({ item -> onClick(item)}, {star -> onStarClick(star) })
+
 
     @Inject
     lateinit var networkUtil: NetworkUtil
@@ -161,6 +163,22 @@ class SearchRepositoryFragment: Fragment() {
                     SearchRepositoryFragmentDirections
                             .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
             )
+    }
+
+    private fun onStarClick(itemHolder: ItemHolder) {
+
+        if (!itemHolder.isFavorite){
+//            itemHolder.isFavorite = true
+            searchRepositoryViewModel.saveRepository(itemHolder)
+            Toast.makeText(context, "Repository was saved to favorites", Toast.LENGTH_LONG).show()
+        }
+        else {
+//            itemHolder.isFavorite = false
+            searchRepositoryViewModel.removeFromFavorites(itemHolder)
+            Toast.makeText(context, "Repository was removed from favorites", Toast.LENGTH_LONG).show()
+        }
+        searchRepositoryViewModel.getRepositories(binding.nameRepository.query.toString())
+        adapterRepository.notifyDataSetChanged()
     }
 
     private fun hideProgress() {
