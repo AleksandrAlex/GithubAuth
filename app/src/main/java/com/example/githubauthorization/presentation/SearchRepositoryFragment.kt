@@ -2,31 +2,24 @@ package com.example.githubauthorization.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.githubauthorization.NetworkUtil
 import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
-import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -34,11 +27,13 @@ class SearchRepositoryFragment: Fragment() {
 
     lateinit var binding: FragmentRepositoriesSearchBinding
 
-    private val adapterRepository = AdapterRepository({ item -> onClick(item)}, {star -> onStarClick(star) })
+    private val adapterRepository = AdapterRepository({ item -> onClick(item) }, { star ->
+        onStarClick(
+            star
+        )
+    })
 
 
-    @Inject
-    lateinit var networkUtil: NetworkUtil
 
     @Inject
     lateinit var repository: UserRepository
@@ -55,9 +50,9 @@ class SearchRepositoryFragment: Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentRepositoriesSearchBinding.inflate(layoutInflater)
         setupAdapter()
@@ -68,22 +63,6 @@ class SearchRepositoryFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeState()
-//        binding.searchBtn.setOnClickListener {
-//            if (networkUtil.isNetworkConnected(this.requireContext())){
-//                val repoName = binding.nameRepository.query.toString()
-//                if (repoName.isNotEmpty()){
-//                    searchRepositoryViewModel.getRepositories(repoName)
-//                }
-//            }
-//            else{
-//                val snack: Snackbar = Snackbar.make(view,"No Internet Connection", Snackbar.LENGTH_LONG)
-//                val view = snack.view
-//                val params = view.layoutParams as FrameLayout.LayoutParams
-//                params.gravity = Gravity.TOP
-//                view.layoutParams = params
-//                snack.show()
-//            }
-//        }
 
         binding.nameRepository.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -96,8 +75,8 @@ class SearchRepositoryFragment: Fragment() {
 
                 lifecycleScope.launchWhenStarted {
                     if (newText != null) {
-                        val queryWithoutTrim =  newText.trimStart()
-                        if (queryWithoutTrim.length>2){
+                        val queryWithoutTrim = newText.trimStart()
+                        if (queryWithoutTrim.length > 2) {
                             delay(2000L)
                             searchRepositoryViewModel.getRepositories(queryWithoutTrim)
                         }
@@ -151,8 +130,8 @@ class SearchRepositoryFragment: Fragment() {
         val itemList: RecyclerView = binding.recyclerListRepository
         itemList.layoutManager = LinearLayoutManager(context)
         itemList.adapter = adapterRepository.withLoadStateHeaderAndFooter(
-                footer = RepositoryLoadStateAdapter { adapterRepository.retry() },
-                header = RepositoryLoadStateAdapter { adapterRepository.retry() }
+            footer = RepositoryLoadStateAdapter { adapterRepository.retry() },
+            header = RepositoryLoadStateAdapter { adapterRepository.retry() }
 
         )
     }
@@ -160,20 +139,18 @@ class SearchRepositoryFragment: Fragment() {
     private fun onClick(item: ItemHolder) {
         findNavController()
             .navigate(
-                    SearchRepositoryFragmentDirections
-                            .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
+                SearchRepositoryFragmentDirections
+                    .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
             )
     }
 
     private fun onStarClick(itemHolder: ItemHolder) {
 
         if (!itemHolder.isFavorite){
-//            itemHolder.isFavorite = true
             searchRepositoryViewModel.saveRepository(itemHolder)
             Toast.makeText(context, "Repository was saved to favorites", Toast.LENGTH_LONG).show()
         }
         else {
-//            itemHolder.isFavorite = false
             searchRepositoryViewModel.removeFromFavorites(itemHolder)
             Toast.makeText(context, "Repository was removed from favorites", Toast.LENGTH_LONG).show()
         }

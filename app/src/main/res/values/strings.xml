@@ -12,4 +12,6 @@
     <string name="description">Description:</string>
     <string name="my_favorite_repositories">My favorite repositories</string>
     <string name="enter_repository_name">Enter repository name</string>
+    <string name="please_check_your_connection">Please, check your connection</string>
+    <string name="retry">retry</string>
 </resources>
