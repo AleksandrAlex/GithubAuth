@@ -1,7 +1,5 @@
 package com.example.githubauthorization.presentation
 
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -11,7 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.githubauthorization.NetworkConnection
 import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.ActivityMainBinding
 
@@ -37,17 +34,5 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) ||
         super.onSupportNavigateUp()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        checkInternetConnection()
-    }
-
-    private fun checkInternetConnection() {
-        val receiver = NetworkConnection()
-        val intentFilter = IntentFilter()
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(receiver, intentFilter)
     }
 }

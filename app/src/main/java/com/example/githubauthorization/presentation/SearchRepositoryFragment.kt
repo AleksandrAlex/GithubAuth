@@ -1,11 +1,14 @@
 package com.example.githubauthorization.presentation
 
 import android.content.Context
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,13 +17,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.githubauthorization.NetworkConnection
+import com.example.githubauthorization.NetworkUtil
 import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.getQueryTextChangeStateFlow
 import com.example.githubauthorization.models.ItemHolder
-import kotlinx.coroutines.delay
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,6 +41,9 @@ class SearchRepositoryFragment: Fragment() {
         )
     })
 
+
+    @Inject
+    lateinit var networkUtil: NetworkUtil
 
 
     @Inject
@@ -67,39 +75,38 @@ class SearchRepositoryFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeState()
 
-//        binding.nameRepository.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                binding.nameRepository.clearFocus()
-//                query?.let { searchRepositoryViewModel.getRepositories(it) }
-//                return false
-//            }
-//
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//
-//                lifecycleScope.launchWhenStarted {
-//                    if (newText != null) {
-//                        val queryWithoutTrim = newText.trimStart()
-//                        if (queryWithoutTrim.length > 2) {
-//                            delay(2000L)
-//                            searchRepositoryViewModel.getRepositories(queryWithoutTrim)
-//                        }
-//                    }
-//                }
-//                return false
-//            }
-//        })
+        val receiver = NetworkConnection()
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
+        this.requireContext().registerReceiver(receiver, intentFilter)
 
-
-        lifecycleScope.launch {
-            binding.nameRepository.getQueryTextChangeStateFlow()
-                .debounce(1000)
-                .filter {
-                    return@filter !it.isEmpty()
-                }
-                .collect {
-                    searchRepositoryViewModel.getRepositories(it)
-                }
+        receiver.hasConnect.observe(viewLifecycleOwner, {
+            if (it){
+                binding.nameRepository.visibility = View.VISIBLE
+                binding.recyclerListRepository.visibility = View.VISIBLE
+                lifecycleScope.launch {
+                binding.nameRepository.getQueryTextChangeStateFlow()
+                    .debounce(1000)
+                    .filter {
+                        return@filter !it.isEmpty()
+                    }
+                    .collect {
+                        searchRepositoryViewModel.getRepositories(it)
+                    }
+            }
         }
+        else{
+            binding.nameRepository.visibility = View.INVISIBLE
+                binding.recyclerListRepository.visibility = View.INVISIBLE
+            val snack: Snackbar = Snackbar.make(view,"No Internet Connection", Snackbar.LENGTH_LONG)
+            val view = snack.view
+            val params = view.layoutParams as FrameLayout.LayoutParams
+            params.gravity = Gravity.TOP
+            view.layoutParams = params
+            snack.show()
+        }
+        })
+
     }
 
     private fun observeState() {
