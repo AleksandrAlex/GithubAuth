@@ -1,21 +1,13 @@
 package com.example.githubauthorization.presentation
 
-import android.annotation.SuppressLint
+
 import androidx.lifecycle.*
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.githubauthorization.data.UserRepository
-import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 class SearchRepositoryViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
@@ -37,8 +29,8 @@ class SearchRepositoryViewModel @Inject constructor(private val repository: User
     }
 
     fun removeFromFavorites(itemHolder: ItemHolder) = viewModelScope.launch(Dispatchers.IO){
-        repository.removeRepositoryFromDB(itemHolder.item.id)
         itemHolder.isFavorite = false
+        repository.removeRepositoryFromDB(itemHolder.item.id)
     }
 
 }

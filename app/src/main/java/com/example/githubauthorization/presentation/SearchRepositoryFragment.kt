@@ -18,8 +18,11 @@ import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
+import com.example.githubauthorization.getQueryTextChangeStateFlow
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -64,27 +67,39 @@ class SearchRepositoryFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeState()
 
-        binding.nameRepository.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                binding.nameRepository.clearFocus()
-                query?.let { searchRepositoryViewModel.getRepositories(it) }
-                return false
-            }
+//        binding.nameRepository.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                binding.nameRepository.clearFocus()
+//                query?.let { searchRepositoryViewModel.getRepositories(it) }
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//
+//                lifecycleScope.launchWhenStarted {
+//                    if (newText != null) {
+//                        val queryWithoutTrim = newText.trimStart()
+//                        if (queryWithoutTrim.length > 2) {
+//                            delay(2000L)
+//                            searchRepositoryViewModel.getRepositories(queryWithoutTrim)
+//                        }
+//                    }
+//                }
+//                return false
+//            }
+//        })
 
-            override fun onQueryTextChange(newText: String?): Boolean {
 
-                lifecycleScope.launchWhenStarted {
-                    if (newText != null) {
-                        val queryWithoutTrim = newText.trimStart()
-                        if (queryWithoutTrim.length > 2) {
-                            delay(2000L)
-                            searchRepositoryViewModel.getRepositories(queryWithoutTrim)
-                        }
-                    }
+        lifecycleScope.launch {
+            binding.nameRepository.getQueryTextChangeStateFlow()
+                .debounce(1000)
+                .filter {
+                    return@filter !it.isEmpty()
                 }
-                return false
-            }
-        })
+                .collect {
+                    searchRepositoryViewModel.getRepositories(it)
+                }
+        }
     }
 
     private fun observeState() {

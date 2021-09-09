@@ -1,12 +1,9 @@
 package com.example.githubauthorization.api
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.githubauthorization.GitHubApi
-import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.db.RepoDB
-import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.flow.first
 import retrofit2.HttpException
