@@ -153,9 +153,8 @@ class SearchRepositoryFragment: Fragment() {
     private fun setupAdapter() {
         val itemList: RecyclerView = binding.recyclerListRepository
         itemList.layoutManager = LinearLayoutManager(context)
-        itemList.adapter = adapterRepository.withLoadStateHeaderAndFooter(
-            footer = RepositoryLoadStateAdapter { adapterRepository.retry() },
-            header = RepositoryLoadStateAdapter { adapterRepository.retry() }
+        itemList.adapter = adapterRepository.withLoadStateFooter(
+            footer = RepositoryLoadStateAdapter { adapterRepository.retry() }
 
         )
     }
@@ -178,8 +177,9 @@ class SearchRepositoryFragment: Fragment() {
             searchRepositoryViewModel.removeFromFavorites(itemHolder)
             Toast.makeText(context, "Repository was removed from favorites", Toast.LENGTH_LONG).show()
         }
-        searchRepositoryViewModel.getRepositories(binding.nameRepository.query.toString())
-        adapterRepository.notifyDataSetChanged()
+//        searchRepositoryViewModel.getRepositories(binding.nameRepository.query.toString())
+//        adapterRepository.notifyDataSetChanged()
+
     }
 
     private fun hideProgress() {

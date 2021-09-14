@@ -28,9 +28,11 @@ class AdapterFavoriteRepository(
                 transformations(CircleCropTransformation())
             }
             binding.starFavorite.setOnClickListener {
-                val position = position
-                val item = currentList[position]
                 starClick(item)
+            }
+
+            itemView.setOnClickListener {
+                itemClick(item)
             }
         }
     }
@@ -45,9 +47,6 @@ class AdapterFavoriteRepository(
 
     override fun onBindViewHolder(holder: FavoriteRepositoryViewHolder, position: Int) {
         holder.bind(getItem(position))
-        holder.itemView.setOnClickListener {
-            itemClick(getItem(position))
-        }
     }
 }
 

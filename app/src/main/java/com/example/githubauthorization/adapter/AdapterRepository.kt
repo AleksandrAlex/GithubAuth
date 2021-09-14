@@ -2,6 +2,7 @@ package com.example.githubauthorization.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.persistableBundleOf
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -17,7 +18,7 @@ class AdapterRepository(
     private val itemClick: (ItemHolder) -> Unit, private val starClick: (ItemHolder) -> Unit
 ): PagingDataAdapter<ItemHolder, AdapterRepository.ItemViewHolder>(ItemDiffUtil()) {
 
-    class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ItemViewHolder(val binding: ItemRepositoryBinding): RecyclerView.ViewHolder(binding.root) {
 
         fun bind(itemHolder: ItemHolder) {
             binding.repoName.text = itemHolder.item.name
@@ -33,6 +34,11 @@ class AdapterRepository(
             else{
                 binding.starFavorite.setImageResource(R.drawable.ic_star)
             }
+
+            binding.starFavorite.setOnClickListener {
+                starClick(itemHolder)
+                notifyItemChanged(position)
+            }
         }
     }
 
@@ -45,9 +51,6 @@ class AdapterRepository(
         getItem(position)?.let { holder.bind(it) }
         holder.itemView.setOnClickListener {
             getItem(position)?.let { it1 -> itemClick(it1) }
-        }
-        holder.binding.starFavorite.setOnClickListener {
-            getItem(position)?.let { it1 -> starClick(it1) }
         }
     }
 }
