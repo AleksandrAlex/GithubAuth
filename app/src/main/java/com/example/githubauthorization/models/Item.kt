@@ -41,7 +41,7 @@ data class Item(
     val homepage: String,
     val hooks_url: String,
     val html_url: String,
-    val id: Int,
+    val id: Long,
     val issue_comment_url: String,
     val issue_events_url: String,
     val issues_url: String,

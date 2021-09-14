@@ -18,7 +18,7 @@ class AdapterFavoriteRepository(
     private val itemClick: (EntityRepo) -> Unit, private val starClick: (EntityRepo) -> Unit
 ) : ListAdapter<EntityRepo, AdapterFavoriteRepository.FavoriteRepositoryViewHolder> (FavoriteDiffUtil()){
 
-    class FavoriteRepositoryViewHolder(val binding: ItemFavoriteRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FavoriteRepositoryViewHolder(val binding: ItemFavoriteRepositoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: EntityRepo) {
             binding.repoName.text = item.name
             binding.userName.text = item.login
@@ -26,6 +26,11 @@ class AdapterFavoriteRepository(
             binding.imageView.load(item.avatar_url){
                 placeholder(R.drawable.ic_account)
                 transformations(CircleCropTransformation())
+            }
+            binding.starFavorite.setOnClickListener {
+                val position = position
+                val item = currentList[position]
+                starClick(item)
             }
         }
     }
@@ -42,10 +47,6 @@ class AdapterFavoriteRepository(
         holder.bind(getItem(position))
         holder.itemView.setOnClickListener {
             itemClick(getItem(position))
-        }
-
-        holder.binding.starFavorite.setOnClickListener {
-            starClick(getItem(position))
         }
     }
 }

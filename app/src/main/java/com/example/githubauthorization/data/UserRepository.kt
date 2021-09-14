@@ -53,11 +53,11 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
         dbDao.getRepositoriesFromDB()
 
 
-    suspend fun removeRepositoryFromDB(item: Int) = withContext(Dispatchers.IO){
+    suspend fun removeRepositoryFromDB(item: Long){
         dbDao.removeRepository(item)
     }
 
-    fun getItemFromDatabase(itemId: Int) =
+    fun getItemFromDatabase(itemId: Long) =
         dbDao.getItem(itemId)
 
 }

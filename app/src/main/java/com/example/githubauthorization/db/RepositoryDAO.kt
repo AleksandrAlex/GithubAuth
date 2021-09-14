@@ -16,8 +16,8 @@ interface RepositoryDAO {
 //    suspend fun removeRepository(item: EntityRepo)
 
     @Query("SELECT * FROM entityrepo WHERE id = :id")
-    fun getItem(id: Int): Flow<EntityRepo>
+    fun getItem(id: Long): Flow<EntityRepo>
 
     @Query("DELETE FROM entityrepo WHERE id = :id")
-    suspend fun removeRepository(id: Int)
+    suspend fun removeRepository(id: Long)
 }

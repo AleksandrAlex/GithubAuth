@@ -54,7 +54,7 @@ class AdapterRepository(
 
 class ItemDiffUtil: DiffUtil.ItemCallback<ItemHolder>() {
     override fun areItemsTheSame(oldItem: ItemHolder, newItem: ItemHolder): Boolean {
-        return oldItem.item.id == newItem.item.id && oldItem.isFavorite == newItem.isFavorite
+        return oldItem.item.id == newItem.item.id
     }
 
 

@@ -17,17 +17,17 @@ import javax.inject.Inject
 class FavoriteDetailsRepositoryViewModel @Inject constructor(private val repository: UserRepository) : ViewModel(){
 
 
-    private val id: MutableStateFlow<Int> = MutableStateFlow(0)
+    private val id: MutableStateFlow<Long> = MutableStateFlow(0)
 
     val entityRepo = id.flatMapLatest {
         repository.getItemFromDatabase(it)
     }
 
-    fun setItem(itemId: Int) {
+    fun setItem(itemId: Long) {
         id.value = itemId
     }
 
-    suspend fun removeRepositoryFromDatabase(itemId: Int) = viewModelScope.launch {
+    suspend fun removeRepositoryFromDatabase(itemId: Long) = viewModelScope.launch {
         repository.removeRepositoryFromDB(itemId)
     }
 }
