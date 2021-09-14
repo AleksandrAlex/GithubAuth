@@ -27,6 +27,7 @@ import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBin
 import com.example.githubauthorization.getQueryTextChangeStateFlow
 import com.example.githubauthorization.models.ItemHolder
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_detail_repository.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -98,6 +99,7 @@ class SearchRepositoryFragment: Fragment() {
             }
         }
         else{
+            binding.nameRepository.setQuery("",false)
             binding.nameRepository.visibility = View.INVISIBLE
                 binding.recyclerListRepository.visibility = View.INVISIBLE
             val snack: Snackbar = Snackbar.make(view,"No Internet Connection", Snackbar.LENGTH_LONG)

@@ -47,9 +47,8 @@ class ItemsRepositoryPagingSource(
                     }
                 }
             }
-            val nextKey = if (items.size < pageSize) null else pageNumber + 1
-            val prevKey = if (pageSize == 1) null else pageNumber - 1
-            return LoadResult.Page(itemsHolder, prevKey, nextKey)
+            val nextKey = if (itemsHolder.size < pageSize) null else pageNumber + 1
+            return LoadResult.Page(itemsHolder, null, nextKey)
         } else {
             return LoadResult.Error(HttpException(response))
         }
