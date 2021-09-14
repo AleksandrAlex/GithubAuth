@@ -26,8 +26,7 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
      fun getRepositories(search: String) =
         Pager(
             config = PagingConfig(
-                pageSize = 20,
-                maxSize = 100
+                pageSize = 20
             ),
             pagingSourceFactory = {ItemsRepositoryPagingSource(db, api, search)}
         ).liveData
