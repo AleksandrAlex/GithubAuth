@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
-class UserProfileViewModel(private val repository: UserRepository): ViewModel() {
+class UserProfileViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
 
     private val _state = MutableLiveData<UserProfileViewModelState>()
     val state: LiveData<UserProfileViewModelState>
@@ -34,10 +34,4 @@ sealed class UserProfileViewModelState {
     class Success(val userProfile: UserProfile?): UserProfileViewModelState()
     class Error(val errorMessage: String): UserProfileViewModelState()
     object Loading : UserProfileViewModelState()
-}
-
-class UserProfileViewModelFactory @Inject constructor(val repository: UserRepository): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return UserProfileViewModel(repository) as T
-    }
 }

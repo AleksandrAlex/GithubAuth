@@ -3,7 +3,6 @@ package com.example.githubauthorization.presentation
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import androidx.paging.map
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +34,4 @@ class SearchRepositoryViewModel @Inject constructor(private val repository: User
 
 }
 
-class SearchRepositoryViewModelFactory @Inject constructor(val repository: UserRepository): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return SearchRepositoryViewModel(repository) as T
-    }
-}
 

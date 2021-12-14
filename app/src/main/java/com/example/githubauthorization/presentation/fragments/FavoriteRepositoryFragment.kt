@@ -18,7 +18,7 @@ import com.example.githubauthorization.databinding.FragmentFavoriteRepositoriesB
 import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.presentation.App
 import com.example.githubauthorization.presentation.FavoriteRepositoryViewModel
-import com.example.githubauthorization.presentation.FavoriteRepositoryViewModelFactory
+import com.example.githubauthorization.presentation.viewmodels.ViewModelFactory
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -28,9 +28,9 @@ class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositor
     lateinit var repository: UserRepository
 
     @Inject
-    lateinit var favoriteRepositoryViewModelFactory: FavoriteRepositoryViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private val favoriteRepositoryViewModel by viewModels<FavoriteRepositoryViewModel> { favoriteRepositoryViewModelFactory }
+    private val favoriteRepositoryViewModel by viewModels<FavoriteRepositoryViewModel> { viewModelFactory }
 
     lateinit var binding: FragmentFavoriteRepositoriesBinding
 

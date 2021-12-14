@@ -16,8 +16,7 @@ import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.FragmentFavoriteDetailsRepositoryBinding
 import com.example.githubauthorization.presentation.App
 import com.example.githubauthorization.presentation.FavoriteDetailsRepositoryViewModel
-import com.example.githubauthorization.presentation.FavoriteDetailsRepositoryViewModelFactory
-import kotlinx.android.synthetic.main.fragment_detail_repository.*
+import com.example.githubauthorization.presentation.viewmodels.ViewModelFactory
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,7 +28,7 @@ class FavoriteDetailsRepositoryFragment : Fragment() {
     private val args: FavoriteDetailsRepositoryFragmentArgs by navArgs()
 
     @Inject
-    lateinit var factory: FavoriteDetailsRepositoryViewModelFactory
+    lateinit var factory: ViewModelFactory
 
     private val favoriteDetailsRepositoryViewModel by viewModels<FavoriteDetailsRepositoryViewModel> { factory }
 

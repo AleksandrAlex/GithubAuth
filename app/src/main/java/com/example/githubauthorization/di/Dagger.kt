@@ -1,22 +1,21 @@
 package com.example.githubauthorization.di
 
 import android.content.Context
+import androidx.lifecycle.ViewModel
 import com.example.githubauthorization.presentation.fragments.DetailRepositoryFragment
 import com.example.githubauthorization.presentation.fragments.FavoriteDetailsRepositoryFragment
 import com.example.githubauthorization.GitHubApi
 import com.example.githubauthorization.api.TokenInterceptor
-import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.db.RepoDB
-import com.example.githubauthorization.domain.UserProfileViewModelFactory
+import com.example.githubauthorization.domain.UserProfileViewModel
 import com.example.githubauthorization.presentation.*
 import com.example.githubauthorization.presentation.fragments.AuthFragment
 import com.example.githubauthorization.presentation.fragments.FavoriteRepositoryFragment
 import com.example.githubauthorization.presentation.fragments.ProfileFragment
 import com.example.githubauthorization.presentation.fragments.SearchRepositoryFragment
-import dagger.BindsInstance
-import dagger.Component
-import dagger.Module
-import dagger.Provides
+import com.example.githubauthorization.presentation.viewmodels.ViewModelKey
+import dagger.*
+import dagger.multibindings.IntoMap
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -83,37 +82,35 @@ class NetworkModule {
 }
 
 @Module
-class ViewModelModule{
+abstract class ViewModelModule{
 
-    @Singleton
-    @Provides
-    fun provideUserViewModelFactory(repository: UserRepository): UserProfileViewModelFactory {
-        return UserProfileViewModelFactory(repository)
-    }
 
-    @Singleton
-    @Provides
-    fun provideSearchRepositoryViewModelFactory(repository: UserRepository): SearchRepositoryViewModelFactory{
-        return SearchRepositoryViewModelFactory(repository)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserProfileViewModel::class)
+    abstract fun provideUserViewModelFactory(viewModel: UserProfileViewModel): ViewModel
 
-    @Singleton
-    @Provides
-    fun provideFavoriteRepositoryViewModelFactory(repository: UserRepository): FavoriteRepositoryViewModelFactory{
-        return FavoriteRepositoryViewModelFactory(repository)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchRepositoryViewModel::class)
+    abstract fun provideSearchRepositoryViewModelFactory(viewModel: SearchRepositoryViewModel): ViewModel
 
-    @Singleton
-    @Provides
-    fun provideDetailRepositoryFragmentViewModelFactory(repository: UserRepository): DetailRepositoryFragmentViewModelFactory{
-        return DetailRepositoryFragmentViewModelFactory(repository)
-    }
 
-    @Singleton
-    @Provides
-    fun provideFavoriteDetailsRepositoryViewModelFactory(repository: UserRepository): FavoriteDetailsRepositoryViewModelFactory{
-        return FavoriteDetailsRepositoryViewModelFactory(repository)
-    }
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteRepositoryViewModel::class)
+    abstract fun provideFavoriteRepositoryViewModelFactory(viewModel: FavoriteRepositoryViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DetailRepositoryFragmentViewModel::class)
+    abstract fun provideDetailRepositoryFragmentViewModelFactory(viewModel: DetailRepositoryFragmentViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoriteDetailsRepositoryViewModel::class)
+    abstract fun provideFavoriteDetailsRepositoryViewModelFactory(viewModel: FavoriteDetailsRepositoryViewModel): ViewModel
 }
 
 @Module

@@ -18,10 +18,10 @@ import com.example.githubauthorization.R
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentProfileBinding
 import com.example.githubauthorization.domain.UserProfileViewModel
-import com.example.githubauthorization.domain.UserProfileViewModelFactory
 import com.example.githubauthorization.domain.UserProfileViewModelState
 import com.example.githubauthorization.models.UserProfile
 import com.example.githubauthorization.presentation.App
+import com.example.githubauthorization.presentation.viewmodels.ViewModelFactory
 
 import javax.inject.Inject
 
@@ -35,9 +35,9 @@ class ProfileFragment : Fragment() {
     lateinit var repository: UserRepository
 
     @Inject
-    lateinit var userProfileViewModelFactory: UserProfileViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private val userViewModel by viewModels<UserProfileViewModel> { userProfileViewModelFactory }
+    private val userViewModel by viewModels<UserProfileViewModel> { viewModelFactory }
 
 
     override fun onAttach(context: Context) {

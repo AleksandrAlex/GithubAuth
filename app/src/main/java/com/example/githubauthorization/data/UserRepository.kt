@@ -2,28 +2,26 @@ package com.example.githubauthorization.data
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
 import androidx.paging.liveData
 import com.example.githubauthorization.GitHubApi
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.api.ItemsRepositoryPagingSource
 import com.example.githubauthorization.db.EntityRepo
 import com.example.githubauthorization.db.RepoDB
-import com.example.githubauthorization.models.Item
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val api: GitHubApi, private val db: RepoDB){
+class UserRepository @Inject constructor(private val api: GitHubApi, private val db: RepoDB) : Repository{
 
     private val dbDao = db.repositoryDAO
 
-    suspend fun getUserProfile(userName: String) = withContext(Dispatchers.IO){
+    override suspend fun getUserProfile(userName: String) = withContext(Dispatchers.IO){
          api.getUserProfile(userName)
     }
 
-     fun getRepositories(search: String) =
+     override fun getRepositories(search: String) =
         Pager(
             config = PagingConfig(
                 pageSize = 20
@@ -31,7 +29,7 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
             pagingSourceFactory = {ItemsRepositoryPagingSource(db, api, search)}
         ).liveData
 
-    suspend fun saveRepository(item: ItemHolder){
+    override suspend fun saveRepository(item: ItemHolder){
         dbDao.insertRepository(
             EntityRepo(
             id = item.item.id,
@@ -48,15 +46,15 @@ class UserRepository @Inject constructor(private val api: GitHubApi, private val
         )
     }
 
-    fun getFavoriteRepositories() =
+    override fun getFavoriteRepositories() =
         dbDao.getRepositoriesFromDB()
 
 
-    suspend fun removeRepositoryFromDB(item: Long){
+    override suspend fun removeRepositoryFromDB(item: Long){
         dbDao.removeRepository(item)
     }
 
-    fun getItemFromDatabase(itemId: Long) =
+    override fun getItemFromDatabase(itemId: Long) =
         dbDao.getItem(itemId)
 
 }

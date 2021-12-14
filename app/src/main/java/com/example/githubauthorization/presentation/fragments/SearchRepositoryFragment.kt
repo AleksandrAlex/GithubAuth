@@ -27,7 +27,7 @@ import com.example.githubauthorization.getQueryTextChangeStateFlow
 import com.example.githubauthorization.models.ItemHolder
 import com.example.githubauthorization.presentation.App
 import com.example.githubauthorization.presentation.SearchRepositoryViewModel
-import com.example.githubauthorization.presentation.SearchRepositoryViewModelFactory
+import com.example.githubauthorization.presentation.viewmodels.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_detail_repository.*
 import kotlinx.coroutines.flow.*
@@ -55,9 +55,9 @@ class SearchRepositoryFragment: Fragment() {
     lateinit var repository: UserRepository
 
     @Inject
-    lateinit var searchRepositoryModelFactory: SearchRepositoryViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private val searchRepositoryViewModel by viewModels<SearchRepositoryViewModel> { searchRepositoryModelFactory }
+    private val searchRepositoryViewModel by viewModels<SearchRepositoryViewModel> { viewModelFactory }
 
 
     override fun onAttach(context: Context) {

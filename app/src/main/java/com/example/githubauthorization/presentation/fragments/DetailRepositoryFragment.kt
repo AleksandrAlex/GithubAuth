@@ -16,7 +16,7 @@ import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentDetailRepositoryBinding
 import com.example.githubauthorization.presentation.App
 import com.example.githubauthorization.presentation.DetailRepositoryFragmentViewModel
-import com.example.githubauthorization.presentation.DetailRepositoryFragmentViewModelFactory
+import com.example.githubauthorization.presentation.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_detail_repository.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +29,7 @@ class DetailRepositoryFragment : Fragment() {
     lateinit var userRepository: UserRepository
 
     @Inject
-    lateinit var factory: DetailRepositoryFragmentViewModelFactory
+    lateinit var factory: ViewModelFactory
 
     private val detailRepositoryFragmentViewModel by viewModels<DetailRepositoryFragmentViewModel> { factory }
 
