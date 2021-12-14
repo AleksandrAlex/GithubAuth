@@ -1,4 +1,4 @@
-package com.example.githubauthorization.presentation
+package com.example.githubauthorization.presentation.fragments
 
 import android.content.Context
 import android.content.IntentFilter
@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +25,9 @@ import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.getQueryTextChangeStateFlow
 import com.example.githubauthorization.models.ItemHolder
+import com.example.githubauthorization.presentation.App
+import com.example.githubauthorization.presentation.SearchRepositoryViewModel
+import com.example.githubauthorization.presentation.SearchRepositoryViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_detail_repository.*
 import kotlinx.coroutines.flow.*
@@ -165,7 +167,9 @@ class SearchRepositoryFragment: Fragment() {
         findNavController()
             .navigate(
                 SearchRepositoryFragmentDirections
-                    .actionSearchRepositoryFragmentToDetailRepositoryFragment(item)
+                    .actionSearchRepositoryFragmentToDetailRepositoryFragment(
+                    item
+                )
             )
     }
 

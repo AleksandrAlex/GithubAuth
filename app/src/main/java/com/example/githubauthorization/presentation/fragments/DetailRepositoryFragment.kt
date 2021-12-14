@@ -1,4 +1,4 @@
-package com.example.githubauthorization
+package com.example.githubauthorization.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.example.githubauthorization.R
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentDetailRepositoryBinding
 import com.example.githubauthorization.presentation.App

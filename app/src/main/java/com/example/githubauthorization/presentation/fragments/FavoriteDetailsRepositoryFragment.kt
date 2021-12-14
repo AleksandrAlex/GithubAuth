@@ -1,4 +1,4 @@
-package com.example.githubauthorization
+package com.example.githubauthorization.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -12,12 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.example.githubauthorization.R
 import com.example.githubauthorization.databinding.FragmentFavoriteDetailsRepositoryBinding
 import com.example.githubauthorization.presentation.App
 import com.example.githubauthorization.presentation.FavoriteDetailsRepositoryViewModel
 import com.example.githubauthorization.presentation.FavoriteDetailsRepositoryViewModelFactory
 import kotlinx.android.synthetic.main.fragment_detail_repository.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject

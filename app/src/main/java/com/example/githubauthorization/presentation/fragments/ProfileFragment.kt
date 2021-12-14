@@ -1,9 +1,8 @@
-package com.example.githubauthorization.presentation
+package com.example.githubauthorization.presentation.fragments
 
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +18,11 @@ import com.example.githubauthorization.R
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentProfileBinding
 import com.example.githubauthorization.domain.UserProfileViewModel
+import com.example.githubauthorization.domain.UserProfileViewModelFactory
 import com.example.githubauthorization.domain.UserProfileViewModelState
 import com.example.githubauthorization.models.UserProfile
+import com.example.githubauthorization.presentation.App
+
 import javax.inject.Inject
 
 class ProfileFragment : Fragment() {

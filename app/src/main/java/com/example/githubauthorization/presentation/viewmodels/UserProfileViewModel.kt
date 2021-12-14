@@ -1,13 +1,11 @@
 package com.example.githubauthorization.domain
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.models.UserProfile
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
 class UserProfileViewModel(private val repository: UserRepository): ViewModel() {
 
@@ -36,4 +34,10 @@ sealed class UserProfileViewModelState {
     class Success(val userProfile: UserProfile?): UserProfileViewModelState()
     class Error(val errorMessage: String): UserProfileViewModelState()
     object Loading : UserProfileViewModelState()
+}
+
+class UserProfileViewModelFactory @Inject constructor(val repository: UserRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return UserProfileViewModel(repository) as T
+    }
 }

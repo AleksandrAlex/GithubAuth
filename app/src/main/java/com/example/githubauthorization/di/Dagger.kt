@@ -1,13 +1,18 @@
 package com.example.githubauthorization.di
 
 import android.content.Context
-import com.example.githubauthorization.DetailRepositoryFragment
-import com.example.githubauthorization.FavoriteDetailsRepositoryFragment
+import com.example.githubauthorization.presentation.fragments.DetailRepositoryFragment
+import com.example.githubauthorization.presentation.fragments.FavoriteDetailsRepositoryFragment
 import com.example.githubauthorization.GitHubApi
 import com.example.githubauthorization.api.TokenInterceptor
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.db.RepoDB
+import com.example.githubauthorization.domain.UserProfileViewModelFactory
 import com.example.githubauthorization.presentation.*
+import com.example.githubauthorization.presentation.fragments.AuthFragment
+import com.example.githubauthorization.presentation.fragments.FavoriteRepositoryFragment
+import com.example.githubauthorization.presentation.fragments.ProfileFragment
+import com.example.githubauthorization.presentation.fragments.SearchRepositoryFragment
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

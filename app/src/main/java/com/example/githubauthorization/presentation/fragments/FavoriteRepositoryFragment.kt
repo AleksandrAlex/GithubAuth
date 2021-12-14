@@ -1,8 +1,7 @@
-package com.example.githubauthorization.presentation
+package com.example.githubauthorization.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +16,10 @@ import com.example.githubauthorization.adapter.AdapterFavoriteRepository
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentFavoriteRepositoriesBinding
 import com.example.githubauthorization.db.EntityRepo
+import com.example.githubauthorization.presentation.App
+import com.example.githubauthorization.presentation.FavoriteRepositoryViewModel
+import com.example.githubauthorization.presentation.FavoriteRepositoryViewModelFactory
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositories){
@@ -43,8 +44,9 @@ class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositor
     private fun onClick(item: EntityRepo) {
         findNavController()
             .navigate(
-                FavoriteRepositoryFragmentDirections
-                    .actionFavoriteRepositoryFragmentToFavoriteDetailsRepository(item.id)
+                FavoriteRepositoryFragmentDirections.actionFavoriteRepositoryFragmentToFavoriteDetailsRepository(
+                    item.id
+                )
             )
     }
 

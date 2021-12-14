@@ -35,3 +35,9 @@ class SearchRepositoryViewModel @Inject constructor(private val repository: User
 
 }
 
+class SearchRepositoryViewModelFactory @Inject constructor(val repository: UserRepository): ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return SearchRepositoryViewModel(repository) as T
+    }
+}
+

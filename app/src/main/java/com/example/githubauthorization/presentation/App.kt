@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.githubauthorization.di.AppComponent
 import com.example.githubauthorization.di.DaggerAppComponent
 
+
 class App: Application() {
 
 
@@ -13,6 +14,7 @@ class App: Application() {
         super.onCreate()
 
         appComponent = DaggerAppComponent.factory().create(this)
+
     }
 
 }

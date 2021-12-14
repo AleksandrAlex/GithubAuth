@@ -1,4 +1,4 @@
-package com.example.githubauthorization.presentation
+package com.example.githubauthorization.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.githubauthorization.NetworkUtil
 import com.example.githubauthorization.databinding.FragmentAuthBinding
+import com.example.githubauthorization.presentation.App
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -45,7 +46,11 @@ class AuthFragment : Fragment() {
             if (networkUtil.isNetworkConnected(this.requireContext())){
                 val userName = binding.name.text.toString()
                 if (userName.isNotEmpty()){
-                    findNavController().navigate(AuthFragmentDirections.actionAuthFragmentToProfileFragment(userName))
+                    findNavController().navigate(
+                        AuthFragmentDirections.actionAuthFragmentToProfileFragment(
+                            userName
+                        )
+                    )
                 }
             }
             else{

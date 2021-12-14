@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="com.example.githubauthorization.presentation.AuthFragment"
+        android:name="com.example.githubauthorization.presentation.fragments.AuthFragment"
         android:label="fragment_auth"
         tools:layout="@layout/fragment_auth" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.githubauthorization.presentation.ProfileFragment"
+        android:name="com.example.githubauthorization.presentation.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <argument
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchRepositoryFragment"
-        android:name="com.example.githubauthorization.presentation.SearchRepositoryFragment"
+        android:name="com.example.githubauthorization.presentation.fragments.SearchRepositoryFragment"
         android:label="SearchRepositoryFragment"
         tools:layout="@layout/fragment_repositories_search">
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailRepository"
-        android:name="com.example.githubauthorization.DetailRepositoryFragment"
+        android:name="com.example.githubauthorization.presentation.fragments.DetailRepositoryFragment"
         android:label="fragment_detail_repository"
         tools:layout="@layout/fragment_detail_repository" >
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteRepositoryFragment"
-        android:name="com.example.githubauthorization.presentation.FavoriteRepositoryFragment"
+        android:name="com.example.githubauthorization.presentation.fragments.FavoriteRepositoryFragment"
         android:label="FavoriteRepositoryFragment"
         tools:layout="@layout/fragment_favorite_repositories">
         <action
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteDetailsRepository"
-        android:name="com.example.githubauthorization.FavoriteDetailsRepositoryFragment"
+        android:name="com.example.githubauthorization.presentation.fragments.FavoriteDetailsRepositoryFragment"
         android:label="fragment_favorite_details_repository"
         tools:layout="@layout/fragment_favorite_details_repository" >
         <argument android:name="repoId"
