@@ -1,13 +1,13 @@
 package com.example.githubauthorization.domain
 
 import androidx.lifecycle.*
-import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.models.UserProfile
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
-class UserProfileViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
+class UserProfileViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     private val _state = MutableLiveData<UserProfileViewModelState>()
     val state: LiveData<UserProfileViewModelState>

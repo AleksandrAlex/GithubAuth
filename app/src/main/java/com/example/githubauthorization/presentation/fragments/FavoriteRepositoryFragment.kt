@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubauthorization.R
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.adapter.AdapterFavoriteRepository
 import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentFavoriteRepositoriesBinding
@@ -25,7 +26,7 @@ import javax.inject.Inject
 class FavoriteRepositoryFragment : Fragment(R.layout.fragment_favorite_repositories){
 
     @Inject
-    lateinit var repository: UserRepository
+    lateinit var repository: Repository
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

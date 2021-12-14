@@ -3,13 +3,13 @@ package com.example.githubauthorization.presentation
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
-import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.models.ItemHolder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchRepositoryViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
+class SearchRepositoryViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     private val currentQuery = MutableLiveData<String>()
 

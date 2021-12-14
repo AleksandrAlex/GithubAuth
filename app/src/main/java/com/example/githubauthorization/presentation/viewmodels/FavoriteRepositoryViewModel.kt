@@ -2,13 +2,13 @@ package com.example.githubauthorization.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.db.EntityRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FavoriteRepositoryViewModel @Inject constructor(private val repository: UserRepository): ViewModel() {
+class FavoriteRepositoryViewModel @Inject constructor(private val repository: Repository): ViewModel() {
 
     val favoriteRepositories = repository.getFavoriteRepositories()
 

@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import com.example.githubauthorization.presentation.fragments.DetailRepositoryFragment
 import com.example.githubauthorization.presentation.fragments.FavoriteDetailsRepositoryFragment
 import com.example.githubauthorization.GitHubApi
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.api.TokenInterceptor
+import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.db.RepoDB
 import com.example.githubauthorization.domain.UserProfileViewModel
 import com.example.githubauthorization.presentation.*
@@ -24,7 +26,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
-@Component(modules = [NetworkModule::class, ViewModelModule::class, DatabaseModule::class])
+@Component(modules = [NetworkModule::class, ViewModelModule::class, DatabaseModule::class, RepositoryModule::class])
 @Singleton
 interface AppComponent{
 
@@ -120,6 +122,13 @@ class DatabaseModule{
     fun provideDatabase(context: Context): RepoDB{
         return RepoDB.invoke(context)
     }
+}
+
+@Module
+interface RepositoryModule{
+
+    @Binds
+    fun provideRepository(userRepository: UserRepository): Repository
 }
 
 

@@ -15,7 +15,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.example.githubauthorization.R
-import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.databinding.FragmentProfileBinding
 import com.example.githubauthorization.domain.UserProfileViewModel
 import com.example.githubauthorization.domain.UserProfileViewModelState
@@ -32,7 +32,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
 
     @Inject
-    lateinit var repository: UserRepository
+    lateinit var repository: Repository
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

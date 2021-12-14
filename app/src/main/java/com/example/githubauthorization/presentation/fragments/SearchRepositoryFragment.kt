@@ -19,9 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubauthorization.NetworkConnection
 import com.example.githubauthorization.NetworkUtil
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.adapter.AdapterRepository
 import com.example.githubauthorization.adapter.RepositoryLoadStateAdapter
-import com.example.githubauthorization.data.UserRepository
 import com.example.githubauthorization.databinding.FragmentRepositoriesSearchBinding
 import com.example.githubauthorization.getQueryTextChangeStateFlow
 import com.example.githubauthorization.models.ItemHolder
@@ -52,7 +52,7 @@ class SearchRepositoryFragment: Fragment() {
 
 
     @Inject
-    lateinit var repository: UserRepository
+    lateinit var repository: Repository
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

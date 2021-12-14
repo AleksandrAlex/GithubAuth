@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.example.githubauthorization.R
-import com.example.githubauthorization.data.UserRepository
+import com.example.githubauthorization.Repository
 import com.example.githubauthorization.databinding.FragmentDetailRepositoryBinding
 import com.example.githubauthorization.presentation.App
 import com.example.githubauthorization.presentation.DetailRepositoryFragmentViewModel
@@ -26,7 +26,7 @@ import javax.inject.Inject
 class DetailRepositoryFragment : Fragment() {
 
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var userRepository: Repository
 
     @Inject
     lateinit var factory: ViewModelFactory
